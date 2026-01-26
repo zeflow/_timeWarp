@@ -1,0 +1,13 @@
+# Local environment and secrets
+.env
+
+# Runtime artifacts
+.hec_checkpoint.json
+__pycache__/
+export*/
+shifted/
+
+# Editor/OS files
+.DS_Store
+.venv/
+.vscode/
