@@ -13,6 +13,7 @@ load_env()
 # --------- config ----------
 INPUT_GLOB = os.getenv("SCAN_INPUT_GLOB", "export_bots_data4/*.jsonl")     # point at your converted jsonl files
 MAX_RAW_JSON_PARSE = 5_000_000  # skip JSON-parse of _raw if it's insanely large (safety)
+SCAN_BUCKET_SECONDS = int(os.getenv("SCAN_BUCKET_SECONDS", "86400"))  # histogram bucket size (default: 1 day)
 # ---------------------------
 
 # ISO-ish timestamp patterns (Zulu + offsets)
@@ -124,19 +125,24 @@ def main():
         print(f"No files matched {INPUT_GLOB}")
         return
 
+    print(f"Found {len(files)} files to scan (glob: {INPUT_GLOB})", flush=True)
+
     # Per sourcetype aggregates
     outer_time_range = defaultdict(lambda: {"min": None, "max": None})
     raw_time_range = defaultdict(lambda: defaultdict(lambda: {"min": None, "max": None}))  # st -> rawkey -> range
     raw_key_counts = defaultdict(Counter)  # st -> Counter(rawkey)
+    hist_buckets = defaultdict(Counter)  # st -> Counter(bucket_epoch -> count)
     total_events = 0
 
-    for path in files:
+    for idx, path in enumerate(files, 1):
+        events_in_file = 0
         with open(path, "r", encoding="utf-8") as f:
             for line_no, line in enumerate(f, 1):
                 line = line.strip()
                 if not line:
                     continue
                 total_events += 1
+                events_in_file += 1
                 try:
                     ev = json.loads(line)
                 except Exception:
@@ -146,7 +152,11 @@ def main():
                 st = ev.get("sourcetype", "(none)")
                 t = ev.get("_time")
                 if isinstance(t, str):
-                    update_range(outer_time_range[st], parse_iso_any(t))
+                    dt = parse_iso_any(t)
+                    update_range(outer_time_range[st], dt)
+                    if dt:
+                        bucket = int(dt.timestamp()) // SCAN_BUCKET_SECONDS * SCAN_BUCKET_SECONDS
+                        hist_buckets[st][bucket] += 1
 
                 raw = ev.get("_raw")
                 if isinstance(raw, str):
@@ -156,28 +166,80 @@ def main():
                         raw_key_counts[st][raw_key] += 1
                         update_range(raw_time_range[st][raw_key], dt)
 
+                if events_in_file and events_in_file % 50000 == 0:
+                    print(
+                        f"[{idx}/{len(files)}] {path} ... {events_in_file} events so far (total {total_events})",
+                        flush=True,
+                    )
+
+        print(f"[{idx}/{len(files)}] Finished {path} ({events_in_file} events, total {total_events})", flush=True)
+
     # Print summary
     print(f"Scanned events: {total_events}")
     print(f"Distinct sourcetypes: {len(outer_time_range)}\n")
 
+    summary = {
+        "input_glob": INPUT_GLOB,
+        "total_events": total_events,
+        "bucket_seconds": SCAN_BUCKET_SECONDS,
+        "sourcetypes": [],
+    }
+
     for st in sorted(outer_time_range.keys()):
         o = outer_time_range[st]
-        omin = o["min"].isoformat() if o["min"] else "?"
-        omax = o["max"].isoformat() if o["max"] else "?"
-        print(f"== sourcetype: {st}")
-        print(f"  _time range: {omin} .. {omax}")
+        omin_dt = o["min"]
+        omax_dt = o["max"]
+        omin = omin_dt.isoformat() if omin_dt else None
+        omax = omax_dt.isoformat() if omax_dt else None
+
+        st_entry = {
+            "sourcetype": st,
+            "time_range": {"min": omin, "max": omax},
+            "raw_fields": [],
+            "histogram": [],
+            "total_events": 0,
+        }
+
+        if st in hist_buckets:
+            # Convert buckets to sorted list of dicts
+            buckets = hist_buckets[st]
+            st_entry["total_events"] = sum(buckets.values())
+            st_entry["histogram"] = [
+                {"ts": int(ts), "count": buckets[ts]} for ts in sorted(buckets.keys())
+            ]
 
         # raw keys
         if st in raw_key_counts and raw_key_counts[st]:
-            print("  raw timestamp fields (top):")
-            for raw_key, cnt in raw_key_counts[st].most_common(10):
+            for raw_key, cnt in raw_key_counts[st].most_common():
                 rr = raw_time_range[st][raw_key]
-                rmin = rr["min"].isoformat() if rr["min"] else "?"
-                rmax = rr["max"].isoformat() if rr["max"] else "?"
-                print(f"    {raw_key}  count={cnt}  range={rmin} .. {rmax}")
+                rmin = rr["min"].isoformat() if rr["min"] else None
+                rmax = rr["max"].isoformat() if rr["max"] else None
+                st_entry["raw_fields"].append(
+                    {
+                        "field": raw_key,
+                        "count": cnt,
+                        "range": {"min": rmin, "max": rmax},
+                    }
+                )
+
+        summary["sourcetypes"].append(st_entry)
+
+        # Console summary (short)
+        print(f"== sourcetype: {st}")
+        print(f"  _time range: {omin or '?'} .. {omax or '?'}")
+        if st_entry["raw_fields"]:
+            top = st_entry["raw_fields"][:10]
+            print("  raw timestamp fields (top):")
+            for rf in top:
+                rmin = rf['range']['min'] or "?"
+                rmax = rf['range']['max'] or "?"
+                print(f"    {rf['field']}  count={rf['count']}  range={rmin} .. {rmax}")
         else:
             print("  raw timestamp fields: (none detected)")
         print()
+
+    # Emit machine-readable summary marker for consumers (web UI captures this line)
+    print("SCAN_SUMMARY_JSON::" + json.dumps(summary, ensure_ascii=False))
 
 if __name__ == "__main__":
     main()

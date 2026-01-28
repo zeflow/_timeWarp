@@ -33,10 +33,17 @@ The toolchain comes in four parts:
   - Window bounds: `SPLUNK_EARLIEST`, `SPLUNK_LATEST` (ISO `YYYY-MM-DDTHH:MM:SS`)
   - Window size: `SPLUNK_STEP_HOURS` (hours per search window)
 - Scan (scan_sourcetypes_and_dates.py): `SCAN_INPUT_GLOB`
+  - Histogram bucket size: `SCAN_BUCKET_SECONDS` (default 86400)
 - Time-shift (shift_timestamps.py): `SHIFT_INPUT_GLOB`, `SHIFT_OUTPUT_DIR`
   - Shift targets: `SHIFT_TARGET_EARLIEST_ISO` (absolute) or `SHIFT_TARGET_EARLIEST_NOW_MINUS_DAYS` (relative fallback)
   - Rewrite aggressiveness: `SHIFT_AGGRESSIVE_RAW_REWRITE` (`true`/`false`)
 - Upload (upload_data_hec.py): `SPLUNK_HEC_BASE_URL`, `SPLUNK_HEC_TOKEN`, `HEC_INPUT_GLOB`
+
+## Web UI (Flask)
+Prefer a browser? Run the same flows via `webapp.py`:
+1) Install deps (once): `pip install -r <(python - <<'PY'\nimport tomllib,sys\nprint('\\n'.join(tomllib.load(open(\"pyproject.toml\",\"rb\"))['project']['dependencies']))\nPY)` or `pip install flask`.
+2) Start the app: `python webapp.py` (defaults to port 5000).
+3) Open `http://localhost:5000` for screens covering download, time-scan (with built-in Analyze tab), time-shift, and upload. The Analyze tab visualizes sourcetype ranges and raw timestamp detection without writing extra files.
 
 ## Notes
 - `upload_data_hec.py` maintains a checkpoint in `.hec_checkpoint.json` so reruns resume where they left off.
