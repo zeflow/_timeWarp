@@ -18,19 +18,26 @@ load_env()
 INPUT_GLOB = os.getenv("SHIFT_INPUT_GLOB", "export_bots_data4/*.jsonl")
 OUT_DIR = os.getenv("SHIFT_OUTPUT_DIR", "shifted")
 
-# How to choose the shift:
+def env_bool(name: str, default: bool = False) -> bool:
+    val = os.getenv(name)
+    if val is None:
+        return default
+    return val.strip().lower() in {"1", "true", "yes", "y", "on"}
+
+
+# How to choose the shift (env-configurable):
 # Option A: pin earliest event to this absolute time (ISO)
-# Example: "2025-12-01T00:00:00Z"
-TARGET_EARLIEST_TIME_ISO = None
+# Example env: SHIFT_TARGET_EARLIEST_ISO=2025-12-01T00:00:00Z
+TARGET_EARLIEST_TIME_ISO = os.getenv("SHIFT_TARGET_EARLIEST_ISO")
 
 # Option B: pin earliest event to "now minus N days"
 # Used when TARGET_EARLIEST_TIME_ISO is None
-TARGET_EARLIEST_NOW_MINUS_DAYS = 7
+TARGET_EARLIEST_NOW_MINUS_DAYS = int(os.getenv("SHIFT_TARGET_EARLIEST_NOW_MINUS_DAYS", "7"))
 
 # Raw timestamp rewriting behavior:
 # False = only rewrite known timestamp keys (safer)
 # True  = also rewrite any ISO-like string in raw JSON, and more XML Data fields (more aggressive)
-AGGRESSIVE_RAW_REWRITE = False
+AGGRESSIVE_RAW_REWRITE = env_bool("SHIFT_AGGRESSIVE_RAW_REWRITE", False)
 
 # Keys in raw JSON that should be treated as timestamps (case-sensitive)
 RAW_TIME_KEYS = {

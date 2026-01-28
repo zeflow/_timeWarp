@@ -18,7 +18,10 @@ def load_env(path: str = ".env") -> None:
         key, value = line.split("=", 1)
         key = key.strip()
         value = value.strip()
-        if " #" in value:
+        if value.startswith("#"):
+            # Empty value with immediate comment, treat as unset
+            value = ""
+        elif " #" in value:
             # Support inline comments (KEY=value # comment), ignore text after the hash and trim again.
             value = value.split(" #", 1)[0].rstrip()
         if key and key not in os.environ:

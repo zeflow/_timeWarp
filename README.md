@@ -28,8 +28,14 @@ The toolchain comes in four parts:
 
 ## Environment variables (from `.env`)
 - Download (import_data.py): `SPLUNK_BASE_URL`, `SPLUNK_USERNAME`, `SPLUNK_PASSWORD`, `SPLUNK_EXPORT_DIR`
+  - Query template: `SPLUNK_SEARCH` (base search string without the `search` keyword; code injects it plus per-window earliest/latest)
+  - Optional fields clause: `SPLUNK_FIELDS` (space-separated field names; code prepends `fields`)
+  - Window bounds: `SPLUNK_EARLIEST`, `SPLUNK_LATEST` (ISO `YYYY-MM-DDTHH:MM:SS`)
+  - Window size: `SPLUNK_STEP_HOURS` (hours per search window)
 - Scan (scan_sourcetypes_and_dates.py): `SCAN_INPUT_GLOB`
 - Time-shift (shift_timestamps.py): `SHIFT_INPUT_GLOB`, `SHIFT_OUTPUT_DIR`
+  - Shift targets: `SHIFT_TARGET_EARLIEST_ISO` (absolute) or `SHIFT_TARGET_EARLIEST_NOW_MINUS_DAYS` (relative fallback)
+  - Rewrite aggressiveness: `SHIFT_AGGRESSIVE_RAW_REWRITE` (`true`/`false`)
 - Upload (upload_data_hec.py): `SPLUNK_HEC_BASE_URL`, `SPLUNK_HEC_TOKEN`, `HEC_INPUT_GLOB`
 
 ## Notes

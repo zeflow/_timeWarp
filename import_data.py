@@ -12,15 +12,34 @@ from env_utils import load_env, require_env
 
 load_env()
 
+def parse_dt_env(var: str, default: datetime) -> datetime:
+    """
+    Parse an ISO 8601 datetime from env (YYYY-MM-DDTHH:MM:SS); fallback to default if unset.
+    """
+    value = os.getenv(var)
+    if not value:
+        return default
+    try:
+        return datetime.fromisoformat(value)
+    except ValueError as exc:
+        raise RuntimeError(
+            f"Environment variable '{var}' must be in ISO format YYYY-MM-DDTHH:MM:SS (got: {value})"
+        ) from exc
+
 # Base REST API URL and credentials are now sourced from the environment
 BASE = require_env("SPLUNK_BASE_URL")
 AUTH = (require_env("SPLUNK_USERNAME"), require_env("SPLUNK_PASSWORD"))
+SEARCH_TEMPLATE = require_env("SPLUNK_SEARCH")  # Base search; time bounds injected per window
+FIELDS_CLAUSE = os.getenv("SPLUNK_FIELDS", "").strip()  # Optional field list appended as "| fields ..."
 
 # Configurable output directory for exports
 EXPORTDIR = Path(os.getenv("SPLUNK_EXPORT_DIR", "export_bots_data4"))
-START = datetime(2020, 7, 18, 0, 0, 0)
-END = datetime(2020, 9, 29, 0, 0, 0)
-STEP = timedelta(hours=1)
+START = parse_dt_env("SPLUNK_EARLIEST", datetime(2020, 7, 18, 0, 0, 0))
+END = parse_dt_env("SPLUNK_LATEST", datetime(2020, 9, 29, 0, 0, 0))
+STEP_HOURS = float(os.getenv("SPLUNK_STEP_HOURS", "1"))
+if STEP_HOURS <= 0:
+    raise RuntimeError("SPLUNK_STEP_HOURS must be a positive number of hours")
+STEP = timedelta(hours=STEP_HOURS)
 MAX_RESULTS_PER_PAGE = 50000  # Splunk REST API caps a single page at 50k rows
 
 requests.packages.urllib3.disable_warnings()  # disable TLS warnings for self-signed Splunk certs
@@ -67,6 +86,39 @@ def format_splunk_time(dt: datetime) -> str:
     return dt.strftime("%m/%d/%Y:%H:%M:%S")
 
 
+def build_search(start: datetime, end: datetime) -> str:
+    """
+    Combine base search string with per-window earliest/latest bounds,
+    inserting the bounds before the first pipe if present, and append fields clause if set.
+    """
+    earliest = format_splunk_time(start)
+    latest = format_splunk_time(end)
+
+    base = SEARCH_TEMPLATE.strip()
+    # Ensure a single leading "search" keyword regardless of what the env contains
+    if base.lower().startswith("search "):
+        base = base.split(" ", 1)[1].lstrip()
+    base = f"search {base}"
+
+    if "|" in base:
+        prefix, suffix = base.split("|", 1)
+        prefix = prefix.rstrip()
+        suffix = "| " + suffix.lstrip()
+    else:
+        prefix, suffix = base, ""
+
+    # Append fields clause (ensure single leading pipe); env should only contain field names
+    fields_clause = FIELDS_CLAUSE
+    if fields_clause:
+        # If user accidentally included the word "fields", strip it
+        if fields_clause.lower().startswith("fields "):
+            fields_clause = fields_clause.split(" ", 1)[1].strip()
+        fields_clause = " ".join(fields_clause.split())  # normalize spacing
+        suffix = f"{suffix} | fields {fields_clause}".strip()
+
+    return f"{prefix} earliest={earliest} latest={latest} {suffix}".strip()
+
+
 def filename_for_window(start: datetime, end: datetime) -> Path:
     s = start.strftime("%Y%m%d_%H%M")
     e = end.strftime("%Y%m%d_%H%M")
@@ -74,10 +126,7 @@ def filename_for_window(start: datetime, end: datetime) -> Path:
 
 
 def run_window(start: datetime, end: datetime, idx: int, total: int) -> int:
-    search = (
-        f"search index=main earliest={format_splunk_time(start)} latest={format_splunk_time(end)} "
-        "| fields _time host source sourcetype _raw"
-    )
+    search = build_search(start, end)
 
     EXPORTDIR.mkdir(exist_ok=True)
 

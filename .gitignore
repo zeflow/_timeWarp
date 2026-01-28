@@ -5,7 +5,7 @@
 .hec_checkpoint.json
 __pycache__/
 export*/
-shifted/
+shifted*/
 
 # Editor/OS files
 .DS_Store
