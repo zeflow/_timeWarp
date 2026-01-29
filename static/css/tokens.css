@@ -1,0 +1,54 @@
+:root {
+  /* Core neutrals */
+  /* Core based on the Delorean image (deep teal + midnight) */
+  --bg-0: #0b1220;
+  --bg-1: #0e1727;
+  --surface-1: #121d2f;
+  --surface-2: #18263b;
+  --border-1: #1f3047;
+  --border-2: #28405c;
+  --text-1: #e9eefc;
+  --text-2: #cbd6f1;
+  --text-3: #94a6c9;
+
+  /* Brand / accents */
+  /* Accents pulled from the sky: cyan, orange, magenta */
+  --accent-1: #2fd4ff;         /* cyan */
+  --accent-1-strong: #1fb4df;
+  --accent-1-weak: rgba(47,212,255,0.14);
+  --accent-2: #ff8a3d;         /* orange */
+  --accent-3: #ff5fa8;         /* magenta */
+
+  /* Status */
+  --status-success: #38e197;
+  --status-warn: #f7b042;
+  --status-error: #ff5c5c;
+  --status-info: #2fd4ff;
+
+  /* Data viz palette */
+  --viz-1: #2fd4ff;
+  --viz-2: #ff8a3d;
+  --viz-3: #ff5fa8;
+  --viz-4: #7ee0a3;
+  --viz-5: #c084fc;
+  --viz-6: #5eead4;
+  --viz-7: #f2d16b;
+  --viz-8: #8ab4f8;
+
+  /* Interaction */
+  --focus-ring: 0 0 0 2px rgba(47,212,255,0.4);
+  --hover-surface: #1c2a40;
+}
+
+[data-theme="dark"] {
+  --bg-0: #070c16;
+  --bg-1: #0b1220;
+  --surface-1: #0f192a;
+  --surface-2: #162235;
+  --border-1: #1b2940;
+  --border-2: #233651;
+  --text-1: #e9eefc;
+  --text-2: #cbd6f1;
+  --text-3: #94a6c9;
+  --accent-1-weak: rgba(47,212,255,0.2);
+}
