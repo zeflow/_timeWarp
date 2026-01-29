@@ -26,6 +26,11 @@ The toolchain comes in four parts:
 4) Time-shift event timestamps: `python shift_timestamps.py` (reads `SHIFT_INPUT_GLOB`, writes to `SHIFT_OUTPUT_DIR`).
 5) Upload shifted data to HEC: `python upload_data_hec.py` (reads `HEC_INPUT_GLOB`, posts to `SPLUNK_HEC_BASE_URL` with `SPLUNK_HEC_TOKEN`).
 
+## Web UI (all steps in one place)
+- Start: `python webapp.py`
+- Open: http://localhost:5000
+- Use the sidebar to run Download → Scan → Time-shift → Upload without retyping paths/credentials; forms prefill from `.env`/`.env.example` and remembered overrides.
+
 ## Environment variables (from `.env`)
 - Download (import_data.py): `SPLUNK_BASE_URL`, `SPLUNK_USERNAME`, `SPLUNK_PASSWORD`, `SPLUNK_EXPORT_DIR`
   - Query template: `SPLUNK_SEARCH` (base search string without the `search` keyword; code injects it plus per-window earliest/latest)

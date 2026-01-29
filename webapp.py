@@ -14,7 +14,8 @@ from threading import Thread, Lock
 from typing import Any, Dict, List
 
 from base64 import b64encode
-from flask import Flask, jsonify, redirect, render_template_string, request, url_for
+from dataclasses import dataclass, asdict
+from flask import Flask, jsonify, redirect, render_template_string, request, url_for, session
 
 from env_utils import load_env
 
@@ -42,6 +43,116 @@ def read_env_file(path: Path) -> dict:
     return data
 
 ENV_EXAMPLE_DEFAULTS = read_env_file(BASE_DIR / ".env.example")
+
+# --- Config model ---
+@dataclass
+class ConfigModel:
+    workspace_name: str = "default"
+    workspace_root: str = str(BASE_DIR / "workspace_default")
+    # export / download
+    SPLUNK_BASE_URL: str = ""
+    SPLUNK_USERNAME: str = ""
+    SPLUNK_PASSWORD: str = ""
+    SPLUNK_EXPORT_DIR: str = ""
+    SPLUNK_SEARCH: str = ""
+    SPLUNK_FIELDS: str = ""
+    SPLUNK_EARLIEST: str = ""
+    SPLUNK_LATEST: str = ""
+    SPLUNK_STEP_HOURS: str = ""
+    # scan
+    SCAN_INPUT_GLOB: str = ""
+    # shift
+    SHIFT_INPUT_GLOB: str = ""
+    SHIFT_OUTPUT_DIR: str = ""
+    SHIFT_TARGET_EARLIEST_ISO: str = ""
+    SHIFT_TARGET_EARLIEST_NOW_MINUS_DAYS: str = ""
+    SHIFT_AGGRESSIVE_RAW_REWRITE: str = ""
+    # upload
+    HEC_INPUT_GLOB: str = ""
+    SPLUNK_HEC_BASE_URL: str = ""
+    SPLUNK_HEC_TOKEN: str = ""
+
+def _env_defaults() -> ConfigModel:
+    cfg = ConfigModel()
+    env = os.environ
+    def g(key, default=""):
+        return env.get(key) or ENV_EXAMPLE_DEFAULTS.get(key, default)
+    cfg.SPLUNK_BASE_URL = g("SPLUNK_BASE_URL")
+    cfg.SPLUNK_USERNAME = g("SPLUNK_USERNAME")
+    cfg.SPLUNK_PASSWORD = g("SPLUNK_PASSWORD")
+    cfg.SPLUNK_EXPORT_DIR = g("SPLUNK_EXPORT_DIR") or str(BASE_DIR / "export")
+    cfg.SPLUNK_SEARCH = g("SPLUNK_SEARCH")
+    cfg.SPLUNK_FIELDS = g("SPLUNK_FIELDS")
+    cfg.SPLUNK_EARLIEST = g("SPLUNK_EARLIEST")
+    cfg.SPLUNK_LATEST = g("SPLUNK_LATEST")
+    cfg.SPLUNK_STEP_HOURS = g("SPLUNK_STEP_HOURS")
+    cfg.SCAN_INPUT_GLOB = g("SCAN_INPUT_GLOB")
+    cfg.SHIFT_INPUT_GLOB = g("SHIFT_INPUT_GLOB")
+    cfg.SHIFT_OUTPUT_DIR = g("SHIFT_OUTPUT_DIR")
+    cfg.SHIFT_TARGET_EARLIEST_ISO = g("SHIFT_TARGET_EARLIEST_ISO")
+    cfg.SHIFT_TARGET_EARLIEST_NOW_MINUS_DAYS = g("SHIFT_TARGET_EARLIEST_NOW_MINUS_DAYS")
+    cfg.SHIFT_AGGRESSIVE_RAW_REWRITE = g("SHIFT_AGGRESSIVE_RAW_REWRITE")
+    cfg.HEC_INPUT_GLOB = g("HEC_INPUT_GLOB")
+    cfg.SPLUNK_HEC_BASE_URL = g("SPLUNK_HEC_BASE_URL")
+    cfg.SPLUNK_HEC_TOKEN = g("SPLUNK_HEC_TOKEN")
+    return cfg
+
+def _derive_paths(cfg: ConfigModel) -> ConfigModel:
+    root = Path(cfg.workspace_root)
+    download_dir = root / "download"
+    shifted_dir = root / "shifted"
+    if not cfg.SPLUNK_EXPORT_DIR:
+        cfg.SPLUNK_EXPORT_DIR = str(download_dir)
+    if not cfg.SCAN_INPUT_GLOB:
+        cfg.SCAN_INPUT_GLOB = str(download_dir / "*.jsonl")
+    if not cfg.SHIFT_INPUT_GLOB:
+        cfg.SHIFT_INPUT_GLOB = str(download_dir / "*.jsonl")
+    if not cfg.SHIFT_OUTPUT_DIR:
+        cfg.SHIFT_OUTPUT_DIR = str(shifted_dir)
+    if not cfg.HEC_INPUT_GLOB:
+        cfg.HEC_INPUT_GLOB = str(shifted_dir / "*.jsonl")
+    return cfg
+
+def load_profile(name: str) -> dict | None:
+    path = BASE_DIR / "workspaces" / name / "profile.json"
+    if not path.exists():
+        return None
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+
+def save_profile(name: str, data: dict):
+    path = BASE_DIR / "workspaces" / name
+    path.mkdir(parents=True, exist_ok=True)
+    (path / "profile.json").write_text(json.dumps(data, indent=2), encoding="utf-8")
+
+def current_config() -> ConfigModel:
+    cfg = _env_defaults()
+    prof_name = session.get("profile_name")
+    if prof_name:
+        prof = load_profile(prof_name)
+        if prof:
+            for k, v in prof.items():
+                if hasattr(cfg, k):
+                    setattr(cfg, k, v)
+            cfg.workspace_name = prof.get("workspace_name", prof_name)
+            cfg.workspace_root = prof.get("workspace_root", cfg.workspace_root)
+    for k, v in session.get("config_overrides", {}).items():
+        if hasattr(cfg, k):
+            setattr(cfg, k, v)
+    cfg = _derive_paths(cfg)
+    return cfg
+
+def update_config_from_form(form: dict):
+    overrides = session.get("config_overrides", {})
+    for k in form.keys():
+        overrides[k] = form.get(k, "")
+    session["config_overrides"] = overrides
+
+def reset_config():
+    session.pop("config_overrides", None)
+    session.pop("profile_name", None)
 
 TASKS: Dict[str, dict] = {
     "scan": {"log": [], "running": False, "proc": None, "progress": None, "counts": None, "summary": None, "lock": Lock()},
@@ -286,8 +397,10 @@ PAGE_TEMPLATE = """
             </div>
             <div id="tab-content"></div>
           {% else %}
-            <div id="progress" class="progress hidden"><div id="progress-bar" class="bar"></div></div>
-            <pre id="live-output" class="log-area">{{ result if result is not none else '' }}</pre>
+            {% if show_logs %}
+              <div id="progress" class="progress hidden"><div id="progress-bar" class="bar"></div></div>
+              <pre id="live-output" class="log-area">{{ result if result is not none else '' }}</pre>
+            {% endif %}
           {% endif %}
 
           {% if result is not none and success is not none %}
@@ -317,6 +430,7 @@ def render_page(
     task_slug: str | None = None,
     show_tabs: bool = False,
     title_hint: str | None = None,
+    show_logs: bool = True,
 ) -> str:
     return render_template_string(
         PAGE_TEMPLATE,
@@ -329,16 +443,18 @@ def render_page(
         task_slug=task_slug,
         title_hint=title_hint,
         show_tabs=show_tabs,
+        show_logs=show_logs,
     )
 
 
 def prefill(fields: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     out = []
+    cfg = current_config()
     for f in fields:
         if request.method == "POST":
             value = request.form.get(f["name"], "")
         else:
-            value = os.getenv(f["name"], ENV_EXAMPLE_DEFAULTS.get(f["name"], ""))
+            value = getattr(cfg, f["name"], os.getenv(f["name"], ENV_EXAMPLE_DEFAULTS.get(f["name"], "")))
         out.append({**f, "value": value})
     return out
 
@@ -552,26 +668,49 @@ def build_shift_extra() -> str:
 
 # Flask app
 app = Flask(__name__)
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-secret")  # for session storage
 
 # Routes
 @app.route("/")
 def home():
     intro = """
-    <div class="panel" style="margin-top:12px;">
-      <div class="panel__header">What _timewarp does</div>
-      <div class="panel__body">
-        <p>_timewarp is a focused toolkit for moving Splunk data through a four-step loop: pull, inspect, shift, and push back.</p>
-        <ul>
-          <li><strong>Download</strong> &mdash; `import_data.py` runs REST searches (management port 8089) and writes JSONL windows to your export directory.</li>
-          <li><strong>Time-scan</strong> &mdash; `scan_sourcetypes_and_dates.py` checks sourcetypes, earliest/latest ranges, and raw timestamp fields.</li>
-          <li><strong>Time-shift</strong> &mdash; `shift_timestamps.py` pins the earliest event to a target time (or now-minus-N days) and adjusts known timestamp fields.</li>
-          <li><strong>Upload</strong> &mdash; `upload_data_hec.py` streams shifted JSONL files into Splunk HEC (usually port 8088) with automatic checkpointing.</li>
-        </ul>
-        <p>Use the sidebar to jump into any step. The Time-scan page also shows live logs plus a timeline and table of sourcetype ranges so you can sanity-check that your data scanned correctly.</p>
-      </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <h2>Welcome to _timewarp</h2>
+      <p>_timewarp helps you move Splunk data through a simple repeatable workflow:</p>
+      <ul>
+        <li>Pull data from Splunk (export to files)</li>
+        <li>Inspect what you downloaded (sanity-check sourcetypes and time ranges)</li>
+        <li>Shift timestamps (make old data look “recent”)</li>
+        <li>Push it back into Splunk (upload via HEC)</li>
+      </ul>
+      <p>This is useful for demos, labs, and testing—especially when you need realistic events but with new timestamps.</p>
+
+      <h4>How the process works (step by step)</h4>
+      <p><strong>Step 1 — Download (Pull from Splunk)</strong><br>
+      On the Download page you export events from Splunk into JSONL files.<br>
+      You define: Splunk management URL + credentials, a base search (without the search keyword), earliest / latest bounds, window size, and export directory.<br>
+      Output: JSONL files in your export folder.</p>
+
+      <p><strong>Step 2 — Time-scan (Inspect the downloaded files)</strong><br>
+      On Time-scan you point _timewarp at your exported JSONL files. It shows live logs, a timeline, and a table by sourcetype (counts + time range).<br>
+      Output: A quick overview of sourcetypes and time coverage.</p>
+
+      <p><strong>Step 3 — Time-shift (Make the data “recent”)</strong><br>
+      On Time-shift you transform timestamps. Choose one mode: a target earliest ISO timestamp, or “now minus N days.” _timewarp shifts events so the earliest event matches the target and updates known timestamp fields.<br>
+      Output: New JSONL files in your shifted output folder.</p>
+
+      <p><strong>Step 4 — Upload (Push back into Splunk)</strong><br>
+      On Upload you send the shifted JSONL files into Splunk using HEC (base URL + token + input glob). Checkpointing lets you resume if needed.<br>
+      Output: Events appear in Splunk with updated timestamps.</p>
+
+      <h4>Recommended workflow</h4>
+      <p>Download → Time-scan → Time-shift → Time-scan (shifted) → Upload.<br>
+      Scanning before and after shifting helps avoid surprises.</p>
+
+      <p><em>Tip:</em> Use one workspace per dataset (export folder + shifted folder) so paths stay consistent across steps.</p>
     </div>
     """
-    return render_page("Welcome", fields=None, action=None, extra_html=intro)
+    return render_page("Welcome to _timewarp", fields=None, action=None, extra_html=intro, show_logs=False)
 
 
 @app.route("/download", methods=["GET", "POST"])
@@ -589,6 +728,7 @@ def download():
     ])
     if request.method == "POST":
         env_updates = {f["name"]: request.form.get(f["name"], "") for f in fields}
+        update_config_from_form(request.form)
         start_task("download", "import_data.py", env_updates)
     return render_page("Download", fields, "Run download", task_slug="download", show_tabs=False)
 
@@ -600,6 +740,7 @@ def scan():
     ])
     if request.method == "POST":
         env_updates = {f["name"]: request.form.get(f["name"], "") for f in fields}
+        update_config_from_form(request.form)
         start_task("scan", "scan_sourcetypes_and_dates.py", env_updates)
     return render_page("Time-scan", fields, "Run scan", task_slug="scan", extra_html=build_scan_extra(), show_tabs=True)
 
@@ -619,7 +760,6 @@ def shift():
         {"name": "SHIFT_TARGET_EARLIEST_NOW_MINUS_DAYS", "label": "Now minus N days", "type": "number", "step": "1", "hint": "Offset if using 'now minus N days'"},
         {"name": "SHIFT_AGGRESSIVE_RAW_REWRITE", "label": "Aggressive raw rewrite", "type": "checkbox", "hint": "Also rewrite ISO-like strings in _raw beyond known keys"},
     ])
-    # derive default mode if not posted
     if request.method != "POST":
         iso_val = os.getenv("SHIFT_TARGET_EARLIEST_ISO", "")
         mode_default = "iso" if iso_val else "days"
@@ -633,6 +773,7 @@ def shift():
                 env_updates[f["name"]] = "true" if request.form.get(f["name"]) else "false"
             else:
                 env_updates[f["name"]] = request.form.get(f["name"], "")
+        update_config_from_form(request.form)
         start_task("shift", "shift_timestamps.py", env_updates)
     return render_page("Time-shift", fields, "Run shift", task_slug="shift", show_tabs=False, extra_html=build_shift_extra())
 
@@ -646,6 +787,7 @@ def upload():
     ])
     if request.method == "POST":
         env_updates = {f["name"]: request.form.get(f["name"], "") for f in fields}
+        update_config_from_form(request.form)
         start_task("upload", "upload_data_hec.py", env_updates)
     return render_page("Upload", fields, "Run upload", task_slug="upload", show_tabs=False)
 
@@ -868,7 +1010,7 @@ def robbybird():
     </script>
     """
     game_html = game_html.replace("__SPRITE_URL__", sprite_uri or url_for('static', filename='robbybird.png'))
-    return render_page("Robbybird", fields=None, action=None, extra_html=game_html, show_tabs=False)
+    return render_page("Robbybird", fields=None, action=None, extra_html=game_html, show_tabs=False, show_logs=False)
 
 
 @app.route("/<task>/progress")
