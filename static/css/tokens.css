@@ -1,54 +1,53 @@
 :root {
   /* Core neutrals */
   /* Core based on the Delorean image (deep teal + midnight) */
-  --bg-0: #0b1220;
-  --bg-1: #0e1727;
-  --surface-1: #121d2f;
-  --surface-2: #18263b;
-  --border-1: #1f3047;
-  --border-2: #28405c;
-  --text-1: #e9eefc;
-  --text-2: #cbd6f1;
-  --text-3: #94a6c9;
+  --bg-0: #0a0a14;
+  --bg-1: #0d101f;
+  --surface-1: #121528;
+  --surface-2: #191c33;
+  --border-1: #272a42;
+  --border-2: #323650;
+  --text-1: #f6eafb;
+  --text-2: #d7c9e6;
+  --text-3: #a39cb8;
 
-  /* Brand / accents */
-  /* Accents pulled from the sky: cyan, orange, magenta */
-  --accent-1: #2fd4ff;         /* cyan */
-  --accent-1-strong: #1fb4df;
-  --accent-1-weak: rgba(47,212,255,0.14);
-  --accent-2: #ff8a3d;         /* orange */
-  --accent-3: #ff5fa8;         /* magenta */
+  /* Brand / accents — Synthwave */
+  --accent-1: #ff8a3d;         /* warm neon orange */
+  --accent-1-strong: #ff6f1e;
+  --accent-1-weak: rgba(255,138,61,0.18);
+  --accent-2: #ff5fa8;         /* supporting pink/magenta */
+  --accent-3: #c986ff;         /* purple */
 
   /* Status */
-  --status-success: #38e197;
-  --status-warn: #f7b042;
-  --status-error: #ff5c5c;
-  --status-info: #2fd4ff;
+  --status-success: #41e6a3;
+  --status-warn: #ffbb55;
+  --status-error: #ff5c8d;
+  --status-info: #ff4fd8;
 
   /* Data viz palette */
-  --viz-1: #2fd4ff;
-  --viz-2: #ff8a3d;
-  --viz-3: #ff5fa8;
-  --viz-4: #7ee0a3;
-  --viz-5: #c084fc;
-  --viz-6: #5eead4;
-  --viz-7: #f2d16b;
-  --viz-8: #8ab4f8;
+  --viz-1: #ff8a3d;
+  --viz-2: #ff5fa8;
+  --viz-3: #ffb25c;
+  --viz-4: #ff79c6;
+  --viz-5: #ffce7a;
+  --viz-6: #f78fb3;
+  --viz-7: #ffa864;
+  --viz-8: #d7a1ff;
 
   /* Interaction */
-  --focus-ring: 0 0 0 2px rgba(47,212,255,0.4);
-  --hover-surface: #1c2a40;
+  --focus-ring: 0 0 0 2px rgba(255,79,216,0.35);
+  --hover-surface: #1f233a;
 }
 
 [data-theme="dark"] {
-  --bg-0: #070c16;
-  --bg-1: #0b1220;
-  --surface-1: #0f192a;
-  --surface-2: #162235;
-  --border-1: #1b2940;
-  --border-2: #233651;
-  --text-1: #e9eefc;
-  --text-2: #cbd6f1;
-  --text-3: #94a6c9;
-  --accent-1-weak: rgba(47,212,255,0.2);
+  --bg-0: #080812;
+  --bg-1: #0b0e1a;
+  --surface-1: #11142a;
+  --surface-2: #171b33;
+  --border-1: #25293f;
+  --border-2: #2e3351;
+  --text-1: #f6eafb;
+  --text-2: #d7c9e6;
+  --text-3: #a39cb8;
+  --accent-1-weak: rgba(255,79,216,0.22);
 }

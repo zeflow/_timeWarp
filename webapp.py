@@ -164,29 +164,6 @@ PAGE_TEMPLATE = """
       const form = document.querySelector('form');
       const progress = document.getElementById('progress');
       const stopBtn = document.getElementById('stop-btn');
-      const helpButtons = document.querySelectorAll('.help-btn');
-
-      const showHelp = (text) => {
-        const modal = document.createElement('div');
-        modal.className = 'modal';
-        modal.innerHTML = `
-          <div class="modal__content">
-            <div style="font-weight:700; margin-bottom:8px;">Field help</div>
-            <div style="color:var(--text-2); line-height:1.5;">${text || 'No description available.'}</div>
-            <div class="modal__actions">
-              <button class="btn primary" type="button" id="help-close">Close</button>
-            </div>
-          </div>`;
-        const close = () => modal.remove();
-        modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
-        modal.querySelector('#help-close').addEventListener('click', close);
-        document.addEventListener('keydown', function esc(e){ if (e.key === 'Escape'){ close(); document.removeEventListener('keydown', esc);}}, {once:true});
-        document.body.appendChild(modal);
-      };
-
-      helpButtons.forEach(btn => {
-        btn.addEventListener('click', () => showHelp(btn.dataset.help));
-      });
       if (form) {
         form.addEventListener('submit', () => {
           form.querySelectorAll('button').forEach(el => el.disabled = true);
@@ -268,17 +245,27 @@ PAGE_TEMPLATE = """
           <form method="post" class="form">
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;">
               {% for f in fields %}
-              <div class="form-group">
+              <div class="form-group" data-field="{{ f.name }}">
                 <label for="{{ f.name }}">{{ f.label }}</label>
                 {% if f.type == "checkbox" %}
                   <div class="input-with-help">
                     <input type="checkbox" name="{{ f.name }}" id="{{ f.name }}" value="true" title="{{ f.hint or '' }}" {% if f.value in ['true','True','1','on'] %}checked{% endif %}>
-                    <button class="help-btn" type="button" data-help="{{ f.hint or 'No description yet.' }}">?</button>
+                    <span class="help-icon" data-help="{{ f.hint or 'No description yet.' }}">?</span>
+                  </div>
+                {% elif f.type == "radio" %}
+                  <div class="input-with-help" style="grid-template-columns:1fr;">
+                    {% for opt in f.options %}
+                      <label style="display:flex;align-items:center;gap:6px;margin:4px 0;">
+                        <input type="radio" name="{{ f.name }}" value="{{ opt.value }}" {% if f.value == opt.value %}checked{% endif %}>
+                        <span>{{ opt.label }}</span>
+                      </label>
+                    {% endfor %}
+                    <span class="help-icon" data-help="{{ f.hint or 'Select one option.' }}">?</span>
                   </div>
                 {% else %}
                   <div class="input-with-help">
                     <input type="{{ f.type }}" name="{{ f.name }}" id="{{ f.name }}" value="{{ f.value|e }}" placeholder="{{ f.placeholder or '' }}" title="{{ f.hint or '' }}" {% if f.step %}step="{{ f.step }}"{% endif %}>
-                    <button class="help-btn" type="button" data-help="{{ f.hint or 'No description yet.' }}">?</button>
+                    <span class="help-icon" data-help="{{ f.hint or 'No description yet.' }}">?</span>
                   </div>
                 {% endif %}
               </div>
@@ -481,7 +468,7 @@ def build_scan_extra() -> str:
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
         const datasets = [];
-        const colors = ['#2fd4ff','#ff8a3d','#ff5fa8','#7ee0a3','#c084fc','#5eead4','#f2d16b','#8ab4f8','#ffa7c4','#fbbf24'];
+        const colors = ['#ff8a3d','#ff5fa8','#ffb25c','#ff79c6','#ffce7a','#f78fb3','#ffa864','#d7a1ff','#ff9f5f','#ff6fab'];
         let ci = 0, globalMin = Infinity, globalMax = -Infinity;
         summary.sourcetypes.forEach(st => {
           if (!selected.has(st.sourcetype)) return;
@@ -530,6 +517,36 @@ def build_scan_extra() -> str:
       if (tabs.timeline) tabs.timeline.addEventListener('click', () => setActiveTab('timeline'));
       if (tabs.table) tabs.table.addEventListener('click', () => setActiveTab('table'));
       setActiveTab('logs');
+    </script>
+    """
+
+def build_shift_extra() -> str:
+    return """
+    <script>
+      function updateShiftMode() {
+        const mode = (document.querySelector('input[name="SHIFT_MODE"]:checked')?.value) || 'iso';
+        const isoGroup = document.querySelector('[data-field="SHIFT_TARGET_EARLIEST_ISO"]');
+        const daysGroup = document.querySelector('[data-field="SHIFT_TARGET_EARLIEST_NOW_MINUS_DAYS"]');
+        const isoInput = document.getElementById('SHIFT_TARGET_EARLIEST_ISO');
+        const daysInput = document.getElementById('SHIFT_TARGET_EARLIEST_NOW_MINUS_DAYS');
+        if (mode === 'iso') {
+          if (isoGroup) isoGroup.style.display = '';
+          if (daysGroup) daysGroup.style.display = 'none';
+          if (isoInput) isoInput.disabled = false;
+          if (daysInput) daysInput.disabled = true;
+        } else {
+          if (isoGroup) isoGroup.style.display = 'none';
+          if (daysGroup) daysGroup.style.display = '';
+          if (isoInput) isoInput.disabled = true;
+          if (daysInput) daysInput.disabled = false;
+        }
+      }
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('input[name="SHIFT_MODE"]').forEach(r => {
+          r.addEventListener('change', updateShiftMode);
+        });
+        updateShiftMode();
+      });
     </script>
     """
 
@@ -592,10 +609,23 @@ def shift():
     fields = prefill([
         {"name": "SHIFT_INPUT_GLOB", "label": "Input glob", "type": "text", "hint": "Shift source files (JSONL)"},
         {"name": "SHIFT_OUTPUT_DIR", "label": "Output dir", "type": "text", "hint": "Where shifted files are written"},
-        {"name": "SHIFT_TARGET_EARLIEST_ISO", "label": "Target earliest ISO (optional)", "type": "text", "hint": "Pin earliest _time to this ISO (e.g., 2024-01-01T00:00:00Z)"},
-        {"name": "SHIFT_TARGET_EARLIEST_NOW_MINUS_DAYS", "label": "If no target ISO, use now minus N days", "type": "number", "step": "1", "hint": "Fallback offset if target ISO is empty"},
+        {"name": "SHIFT_MODE", "label": "Time shift strategy", "type": "radio",
+         "options": [
+            {"value": "iso", "label": "Use specific earliest timestamp"},
+            {"value": "days", "label": "Use now minus N days"}
+         ],
+         "hint": "Choose how the earliest time is determined"},
+        {"name": "SHIFT_TARGET_EARLIEST_ISO", "label": "Target earliest ISO", "type": "text", "hint": "Pin earliest _time to this ISO (e.g., 2024-01-01T00:00:00Z)"},
+        {"name": "SHIFT_TARGET_EARLIEST_NOW_MINUS_DAYS", "label": "Now minus N days", "type": "number", "step": "1", "hint": "Offset if using 'now minus N days'"},
         {"name": "SHIFT_AGGRESSIVE_RAW_REWRITE", "label": "Aggressive raw rewrite", "type": "checkbox", "hint": "Also rewrite ISO-like strings in _raw beyond known keys"},
     ])
+    # derive default mode if not posted
+    if request.method != "POST":
+        iso_val = os.getenv("SHIFT_TARGET_EARLIEST_ISO", "")
+        mode_default = "iso" if iso_val else "days"
+        for f in fields:
+            if f["name"] == "SHIFT_MODE":
+                f["value"] = mode_default
     if request.method == "POST":
         env_updates = {}
         for f in fields:
@@ -604,7 +634,7 @@ def shift():
             else:
                 env_updates[f["name"]] = request.form.get(f["name"], "")
         start_task("shift", "shift_timestamps.py", env_updates)
-    return render_page("Time-shift", fields, "Run shift", task_slug="shift", show_tabs=False)
+    return render_page("Time-shift", fields, "Run shift", task_slug="shift", show_tabs=False, extra_html=build_shift_extra())
 
 
 @app.route("/upload", methods=["GET", "POST"])
@@ -642,8 +672,9 @@ def robbybird():
         const sprite = "__SPRITE_URL__";
         const gravity = 0.20;
         const flapVel = -5.2;
-        const pipeGap = 260;
-        const pipeSpacing = 220; // frames
+        const pipeGap = 240;
+        const pipeSpacing = 170; // frames
+        let pipeCounter = 0;
 
         function start() {
           const canvas = document.getElementById('game');
@@ -693,7 +724,8 @@ def robbybird():
 
           const spawnPipe = () => {
             const top = 40 + Math.random() * (canvas.height - pipeGap - 120);
-            pipes.push({ x: canvas.width, top, bottom: top + pipeGap, w: 54, passed:false });
+            const label = (pipeCounter++ % 2 === 0) ? '_time' : '_raw';
+            pipes.push({ x: canvas.width, top, bottom: top + pipeGap, w: 54, passed:false, label });
             // cap simultaneous pipes to keep density low (drop newest if over cap)
             if (pipes.length > 3) pipes.pop();
           };
@@ -716,10 +748,18 @@ def robbybird():
           };
 
           const drawPipes = () => {
-            ctx.fillStyle = '#1f3047';
+            const grad = ctx.createLinearGradient(0,0,0,canvas.height);
+            grad.addColorStop(0, '#ff8a3d');
+            grad.addColorStop(1, '#ff5fa8');
             pipes.forEach(p => {
+              ctx.fillStyle = grad;
               ctx.fillRect(p.x, 0, p.w, p.top);
               ctx.fillRect(p.x, p.bottom, p.w, canvas.height - p.bottom);
+              ctx.fillStyle = '#0b0e1a';
+              ctx.font = '12px Inter, sans-serif';
+              ctx.textAlign = 'center';
+              ctx.fillText(p.label, p.x + p.w/2, p.top - 6);
+              ctx.fillText(p.label, p.x + p.w/2, p.bottom + 16);
             });
           };
 
@@ -746,7 +786,7 @@ def robbybird():
             bird.y += bird.v;
             if (frame === 1 || frame % pipeSpacing === 0) spawnPipe();
             pipes.forEach(p => {
-              p.x -= 0.95;
+              p.x -= 1.35;
               if (!p.passed && bird.x > p.x + p.w) { p.passed = true; score += 1; }
             });
             pipes = pipes.filter(p => p.x + p.w > -60);
@@ -757,8 +797,8 @@ def robbybird():
             // HUD
             ctx.fillStyle = '#e9eefc';
             ctx.font = '18px Inter, sans-serif';
-            ctx.fillText('Score: ' + score, canvas.width - 140, 28);
-            if (frame % 60 === 0) setStatus('Frame ' + frame + ' | Score ' + score);
+            ctx.fillText('timestamps fixed: ' + score, canvas.width - 220, 28);
+            if (frame % 60 === 0) setStatus('Frame ' + frame + ' | timestamps fixed ' + score);
 
             if (collide()) {
               alive = false;

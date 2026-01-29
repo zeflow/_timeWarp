@@ -36,7 +36,8 @@ body {
   width: 100%;
   display: block;
   border-radius: 10px;
-  border: 1px solid var(--border-1);
+  border: none;
+  box-shadow: none;
 }
 
 .sidebar__brand {
@@ -81,11 +82,11 @@ body {
   width: 36px;
   height: 36px;
   border-radius: 8px;
-  border: 1px solid var(--border-1);
+  border: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--surface-2);
+  background: transparent;
   color: var(--accent-2);
   font-size: 18px;
 }
@@ -109,7 +110,7 @@ body {
 .nav a.active {
   border-left: 4px solid var(--accent-1);
   padding-left: 6px;
-  background: var(--accent-1-weak);
+  background: linear-gradient(135deg, rgba(255,138,61,0.18), rgba(255,95,168,0.18));
   border-color: var(--accent-1);
 }
 
@@ -157,12 +158,12 @@ body {
 }
 
 .btn.primary {
-  background: var(--accent-1);
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
   color: white;
   border-color: var(--accent-1-strong);
 }
 
-.btn:hover { filter: brightness(0.98); }
+.btn:hover { filter: brightness(1.05); }
 
 .input-with-help {
   display: grid;
@@ -171,41 +172,40 @@ body {
   align-items: center;
 }
 
-.help-btn {
-  border: 1px solid var(--border-2);
-  background: var(--accent-1-weak);
-  color: var(--accent-1);
-  border-radius: 4px;
-  width: 28px;
-  height: 28px;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.55);
-  display: flex;
+.help-icon {
+  position: relative;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  z-index: 2000;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid var(--border-2);
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  color: #fff;
+  font-weight: 800;
+  cursor: default;
 }
-
-.modal__content {
-  background: var(--surface-1);
-  border: 1px solid var(--border-1);
-  border-radius: 8px;
-  padding: 16px;
-  width: min(420px, 90%);
-  color: var(--text-1);
+.help-icon::after {
+  content: attr(data-help);
+  position: absolute;
+  left: 110%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 138, 61, 0.92);
+  color: #0b0e1a;
+  border: 1px solid rgba(255, 95, 168, 0.6);
+  border-radius: 6px;
+  padding: 6px 8px;
+  white-space: nowrap;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.05s ease-in;
+  z-index: 30;
 }
-
-.modal__actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 12px;
+.help-icon:hover::after {
+  opacity: 1;
 }
 
 .form-group {
@@ -254,7 +254,7 @@ body {
 }
 
 .tab-btn.active {
-  background: var(--accent-1-weak);
+  background: linear-gradient(135deg, rgba(255,138,61,0.2), rgba(255,95,168,0.22));
   border-color: var(--accent-1);
   border-left: 4px solid var(--accent-1);
   padding-left: 6px;
