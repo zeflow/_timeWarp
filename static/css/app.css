@@ -89,6 +89,30 @@ body {
   background: transparent;
   color: var(--accent-2);
   font-size: 18px;
+  padding: 0;
+  position: relative;
+}
+.sidebar__bottom img {
+  width: 56px;
+  height: 56px;
+  display: block;
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 0.15s ease-in;
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+.sidebar__bottom a::before {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #f6d14a;
+  display: block;
+}
+.sidebar__bottom a:hover img {
+  opacity: 1;
 }
 
 .nav a {
@@ -145,6 +169,31 @@ body {
 
 .panel__body {
   padding: 12px;
+}
+
+.download-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  gap: 12px;
+}
+.download-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border-1);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.download-card.wide { min-width: 320px; }
+.card-title {
+  font-weight: 700;
+  color: var(--text-1);
+}
+.download-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
 }
 
 .btn {

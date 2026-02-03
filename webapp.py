@@ -325,6 +325,21 @@ PAGE_TEMPLATE = """
           fetch(`/${taskSlug}/stop`, {method:'POST'});
         });
       }
+
+      // datetime-local pickers: push value into paired ISO text fields (UTC, add Z)
+      document.querySelectorAll('.dt-picker').forEach(picker => {
+        picker.addEventListener('change', () => {
+          const targetName = picker.dataset.target;
+          const target = document.getElementById(targetName);
+          if (!target) return;
+          if (!picker.value) return;
+          // value is local; convert to UTC and append Z
+          const dt = new Date(picker.value);
+          if (isNaN(dt.getTime())) return;
+          const iso = new Date(dt.getTime() - dt.getTimezoneOffset()*60000).toISOString().replace(/\.\d{3}Z$/, 'Z');
+          target.value = iso;
+        });
+      });
     });
   </script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -345,7 +360,9 @@ PAGE_TEMPLATE = """
         <li><a href="{{ url_for('upload') }}" class="{{ 'active' if request.endpoint=='upload' else '' }}"><span>Upload</span></a></li>
       </ul>
       <div class="sidebar__bottom" style="justify-content:flex-start; padding-left:4px;">
-        <a href="{{ url_for('robbybird') }}" title="Robbybird" style="color:var(--status-warn);">&#128038;</a>
+        <a href="{{ url_for('robbybird') }}" title="Robbybird" class="sidebar__bird">
+          <img src="{{ url_for('static', filename='robbybird.png') }}" alt="Robbybird" />
+        </a>
       </div>
     </aside>
     <main class="content">
@@ -353,40 +370,180 @@ PAGE_TEMPLATE = """
         <div class="panel__header">{{ title }}{% if title_hint %}<span class="title-hint" title="{{ title_hint }}">?</span>{% endif %}</div>
         <div class="panel__body">
           {% if fields %}
-          <form method="post" class="form">
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;">
-              {% for f in fields %}
-              <div class="form-group" data-field="{{ f.name }}">
-                <label for="{{ f.name }}">{{ f.label }}</label>
-                {% if f.type == "checkbox" %}
-                  <div class="input-with-help">
-                    <input type="checkbox" name="{{ f.name }}" id="{{ f.name }}" value="true" title="{{ f.hint or '' }}" {% if f.value in ['true','True','1','on'] %}checked{% endif %}>
-                    <span class="help-icon" data-help="{{ f.hint or 'No description yet.' }}">?</span>
+            {% if request.endpoint == 'download' %}
+              {% set source_names = ['SPLUNK_BASE_URL','SPLUNK_USERNAME','SPLUNK_PASSWORD'] %}
+              {% set query_names = ['SPLUNK_SEARCH','SPLUNK_FIELDS','SPLUNK_EARLIEST','SPLUNK_LATEST','SPLUNK_STEP_HOURS'] %}
+              {% set export_names = ['SPLUNK_EXPORT_DIR'] %}
+              <form method="post" class="form">
+                <div class="download-row">
+                  <div class="download-card">
+                    <div class="card-title">Source (Splunk System)</div>
+                    <div class="download-grid">
+                      {% for f in fields if f.name in source_names %}
+                        <div class="form-group" data-field="{{ f.name }}">
+                          <label for="{{ f.name }}">{{ f.label }}</label>
+                          <div class="input-with-help">
+                            <input type="{{ f.type }}" name="{{ f.name }}" id="{{ f.name }}" value="{{ f.value|e }}" placeholder="{{ f.placeholder or '' }}" title="{{ f.hint or '' }}" {% if f.step %}step="{{ f.step }}"{% endif %}>
+                            <span class="help-icon" data-help="{{ f.hint or 'No description yet.' }}">?</span>
+                          </div>
+                        </div>
+                      {% endfor %}
+                    </div>
                   </div>
-                {% elif f.type == "radio" %}
-                  <div class="input-with-help" style="grid-template-columns:1fr;">
-                    {% for opt in f.options %}
-                      <label style="display:flex;align-items:center;gap:6px;margin:4px 0;">
-                        <input type="radio" name="{{ f.name }}" value="{{ opt.value }}" {% if f.value == opt.value %}checked{% endif %}>
-                        <span>{{ opt.label }}</span>
-                      </label>
-                    {% endfor %}
-                    <span class="help-icon" data-help="{{ f.hint or 'Select one option.' }}">?</span>
+
+                  <div class="download-card wide">
+                    <div class="card-title">Query &amp; Time Range</div>
+                    <div class="download-grid">
+                      {% for f in fields if f.name in query_names %}
+                        <div class="form-group" data-field="{{ f.name }}">
+                          <label for="{{ f.name }}">{{ f.label }}</label>
+                          <div class="input-with-help">
+                            <input type="{{ f.type }}" name="{{ f.name }}" id="{{ f.name }}" value="{{ f.value|e }}" placeholder="{{ f.placeholder or '' }}" title="{{ f.hint or '' }}" {% if f.step %}step="{{ f.step }}"{% endif %}>
+                            <span class="help-icon" data-help="{{ f.hint or 'No description yet.' }}">?</span>
+                          </div>
+                        </div>
+                      {% endfor %}
+                    </div>
                   </div>
+
+                  <div class="download-card">
+                    <div class="card-title">Export</div>
+                    <div class="download-grid">
+                      {% for f in fields if f.name in export_names %}
+                        <div class="form-group" data-field="{{ f.name }}">
+                          <label for="{{ f.name }}">{{ f.label }}</label>
+                          <div class="input-with-help">
+                            <input type="{{ f.type }}" name="{{ f.name }}" id="{{ f.name }}" value="{{ f.value|e }}" placeholder="{{ f.placeholder or '' }}" title="{{ f.hint or '' }}" {% if f.step %}step="{{ f.step }}"{% endif %}>
+                            <span class="help-icon" data-help="{{ f.hint or 'No description yet.' }}">?</span>
+                          </div>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+                  <button class="btn primary" type="submit">{{ action }}</button>
+                  <a href="{{ request.path }}"><button class="btn" type="button">Reset</button></a>
+                </div>
+              </form>
+            {% elif request.endpoint == 'shift' %}
+              {% set input_names = ['SHIFT_INPUT_GLOB'] %}
+              {% set logic_names = ['SHIFT_MODE','SHIFT_TARGET_EARLIEST_ISO','SHIFT_TARGET_LATEST_ISO','SHIFT_TARGET_EARLIEST_NOW_MINUS_DAYS','SHIFT_AGGRESSIVE_RAW_REWRITE'] %}
+              {% set output_names = ['SHIFT_OUTPUT_DIR'] %}
+              <form method="post" class="form">
+                <div class="download-row">
+                  <div class="download-card">
+                    <div class="card-title">Input</div>
+                    <div class="download-grid">
+                      {% for f in fields if f.name in input_names %}
+                        <div class="form-group" data-field="{{ f.name }}">
+                          <label for="{{ f.name }}">{{ f.label }}</label>
+                          <div class="input-with-help">
+                            <input type="{{ f.type }}" name="{{ f.name }}" id="{{ f.name }}" value="{{ f.value|e }}" placeholder="{{ f.placeholder or '' }}" title="{{ f.hint or '' }}" {% if f.step %}step="{{ f.step }}"{% endif %}>
+                            <span class="help-icon" data-help="{{ f.hint or 'No description yet.' }}">?</span>
+                          </div>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+
+                  <div class="download-card wide">
+                    <div class="card-title">Time Shift</div>
+                    <div class="download-grid">
+                      {% for f in fields if f.name in logic_names %}
+                        <div class="form-group" data-field="{{ f.name }}">
+                          <label for="{{ f.name }}">{{ f.label }}</label>
+                          {% if f.type == "radio" %}
+                            <div class="input-with-help" style="grid-template-columns:1fr;">
+                              {% for opt in f.options %}
+                                <label style="display:flex;align-items:center;gap:6px;margin:4px 0;">
+                                  <input type="radio" name="{{ f.name }}" value="{{ opt.value }}" {% if f.value == opt.value %}checked{% endif %}>
+                                  <span>{{ opt.label }}</span>
+                                </label>
+                              {% endfor %}
+                              <span class="help-icon" data-help="{{ f.hint or 'Select one option.' }}">?</span>
+                            </div>
+                          {% elif f.name == 'SHIFT_TARGET_EARLIEST_ISO' %}
+                            <div class="input-with-help">
+                              <input type="text" name="{{ f.name }}" id="{{ f.name }}" value="{{ f.value|e }}" placeholder="{{ f.placeholder or '' }}" title="{{ f.hint or '' }}">
+                              <span class="help-icon" data-help="{{ f.hint or 'No description yet.' }}">?</span>
+                            </div>
+                          {% elif f.name == 'SHIFT_TARGET_EARLIEST_NOW_MINUS_DAYS' %}
+                            <div class="input-with-help">
+                              <input type="number" name="{{ f.name }}" id="{{ f.name }}" value="{{ f.value|e }}" placeholder="{{ f.placeholder or '' }}" title="{{ f.hint or '' }}" step="1">
+                              <span class="help-icon" data-help="{{ f.hint or 'No description yet.' }}">?</span>
+                            </div>
                 {% else %}
                   <div class="input-with-help">
-                    <input type="{{ f.type }}" name="{{ f.name }}" id="{{ f.name }}" value="{{ f.value|e }}" placeholder="{{ f.placeholder or '' }}" title="{{ f.hint or '' }}" {% if f.step %}step="{{ f.step }}"{% endif %}>
+                    {% set is_iso = ('ISO' in f.name) or (f.name in ['SPLUNK_EARLIEST','SPLUNK_LATEST']) %}
+                    <input type="{{ 'text' if is_iso else f.type }}" name="{{ f.name }}" id="{{ f.name }}" value="{{ f.value|e }}" placeholder="{{ f.placeholder or '' }}" title="{{ f.hint or '' }}" {% if f.step %}step="{{ f.step }}"{% endif %}>
+                    {% if is_iso %}
+                      <input class="dt-picker" type="datetime-local" data-target="{{ f.name }}" aria-label="Pick date/time for {{ f.label }}" style="width: 46px; padding:0 4px; border:1px solid var(--border-2); border-radius:4px; background: var(--surface-2); color: var(--text-1);">
+                    {% endif %}
                     <span class="help-icon" data-help="{{ f.hint or 'No description yet.' }}">?</span>
                   </div>
                 {% endif %}
               </div>
               {% endfor %}
-            </div>
-            <div style="margin-top:10px; display:flex; gap:8px;">
-              <button class="btn primary" type="submit">{{ action }}</button>
-              <a href="{{ request.path }}"><button class="btn" type="button">Reset</button></a>
-            </div>
-          </form>
+                    </div>
+                  </div>
+
+                  <div class="download-card">
+                    <div class="card-title">Output</div>
+                    <div class="download-grid">
+                      {% for f in fields if f.name in output_names %}
+                        <div class="form-group" data-field="{{ f.name }}">
+                          <label for="{{ f.name }}">{{ f.label }}</label>
+                          <div class="input-with-help">
+                            <input type="{{ f.type }}" name="{{ f.name }}" id="{{ f.name }}" value="{{ f.value|e }}" placeholder="{{ f.placeholder or '' }}" title="{{ f.hint or '' }}" {% if f.step %}step="{{ f.step }}"{% endif %}>
+                            <span class="help-icon" data-help="{{ f.hint or 'No description yet.' }}">?</span>
+                          </div>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+                  <button class="btn primary" type="submit">{{ action }}</button>
+                  <a href="{{ request.path }}"><button class="btn" type="button">Reset</button></a>
+                </div>
+              </form>
+            {% else %}
+              <form method="post" class="form">
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;">
+                  {% for f in fields %}
+                  <div class="form-group" data-field="{{ f.name }}">
+                    <label for="{{ f.name }}">{{ f.label }}</label>
+                    {% if f.type == "checkbox" %}
+                      <div class="input-with-help">
+                        <input type="checkbox" name="{{ f.name }}" id="{{ f.name }}" value="true" title="{{ f.hint or '' }}" {% if f.value in ['true','True','1','on'] %}checked{% endif %}>
+                        <span class="help-icon" data-help="{{ f.hint or 'No description yet.' }}">?</span>
+                      </div>
+                    {% elif f.type == "radio" %}
+                      <div class="input-with-help" style="grid-template-columns:1fr;">
+                        {% for opt in f.options %}
+                          <label style="display:flex;align-items:center;gap:6px;margin:4px 0;">
+                            <input type="radio" name="{{ f.name }}" value="{{ opt.value }}" {% if f.value == opt.value %}checked{% endif %}>
+                            <span>{{ opt.label }}</span>
+                          </label>
+                        {% endfor %}
+                        <span class="help-icon" data-help="{{ f.hint or 'Select one option.' }}">?</span>
+                      </div>
+                    {% else %}
+                      <div class="input-with-help">
+                        <input type="{{ f.type }}" name="{{ f.name }}" id="{{ f.name }}" value="{{ f.value|e }}" placeholder="{{ f.placeholder or '' }}" title="{{ f.hint or '' }}" {% if f.step %}step="{{ f.step }}"{% endif %}>
+                        <span class="help-icon" data-help="{{ f.hint or 'No description yet.' }}">?</span>
+                      </div>
+                    {% endif %}
+                  </div>
+                  {% endfor %}
+                </div>
+                <div style="margin-top:10px; display:flex; gap:8px;">
+                  <button class="btn primary" type="submit">{{ action }}</button>
+                  <a href="{{ request.path }}"><button class="btn" type="button">Reset</button></a>
+                </div>
+              </form>
+            {% endif %}
           {% endif %}
 
           {% if show_tabs %}
@@ -643,19 +800,19 @@ def build_shift_extra() -> str:
         const mode = (document.querySelector('input[name="SHIFT_MODE"]:checked')?.value) || 'iso';
         const isoGroup = document.querySelector('[data-field="SHIFT_TARGET_EARLIEST_ISO"]');
         const daysGroup = document.querySelector('[data-field="SHIFT_TARGET_EARLIEST_NOW_MINUS_DAYS"]');
+        const latestGroup = document.querySelector('[data-field="SHIFT_TARGET_LATEST_ISO"]');
         const isoInput = document.getElementById('SHIFT_TARGET_EARLIEST_ISO');
         const daysInput = document.getElementById('SHIFT_TARGET_EARLIEST_NOW_MINUS_DAYS');
-        if (mode === 'iso') {
-          if (isoGroup) isoGroup.style.display = '';
-          if (daysGroup) daysGroup.style.display = 'none';
-          if (isoInput) isoInput.disabled = false;
-          if (daysInput) daysInput.disabled = true;
-        } else {
-          if (isoGroup) isoGroup.style.display = 'none';
-          if (daysGroup) daysGroup.style.display = '';
-          if (isoInput) isoInput.disabled = true;
-          if (daysInput) daysInput.disabled = false;
-        }
+        const latestInput = document.getElementById('SHIFT_TARGET_LATEST_ISO');
+        const showIso = mode === 'iso';
+        const showDays = mode === 'days';
+        const showLatest = mode === 'latest';
+        if (isoGroup) isoGroup.style.display = showIso ? '' : 'none';
+        if (isoInput) isoInput.disabled = !showIso;
+        if (daysGroup) daysGroup.style.display = showDays ? '' : 'none';
+        if (daysInput) daysInput.disabled = !showDays;
+        if (latestGroup) latestGroup.style.display = showLatest ? '' : 'none';
+        if (latestInput) latestInput.disabled = !showLatest;
       }
       document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('input[name="SHIFT_MODE"]').forEach(r => {
@@ -749,20 +906,23 @@ def scan():
 def shift():
     fields = prefill([
         {"name": "SHIFT_INPUT_GLOB", "label": "Input glob", "type": "text", "hint": "Shift source files (JSONL)"},
-        {"name": "SHIFT_OUTPUT_DIR", "label": "Output dir", "type": "text", "hint": "Where shifted files are written"},
         {"name": "SHIFT_MODE", "label": "Time shift strategy", "type": "radio",
          "options": [
             {"value": "iso", "label": "Use specific earliest timestamp"},
-            {"value": "days", "label": "Use now minus N days"}
+            {"value": "days", "label": "Use now minus N days"},
+            {"value": "latest", "label": "Use specific latest timestamp"}
          ],
          "hint": "Choose how the earliest time is determined"},
         {"name": "SHIFT_TARGET_EARLIEST_ISO", "label": "Target earliest ISO", "type": "text", "hint": "Pin earliest _time to this ISO (e.g., 2024-01-01T00:00:00Z)"},
+        {"name": "SHIFT_TARGET_LATEST_ISO", "label": "Target latest ISO", "type": "text", "hint": "Align latest _time to this ISO (e.g., 2024-01-31T23:59:59Z)"},
         {"name": "SHIFT_TARGET_EARLIEST_NOW_MINUS_DAYS", "label": "Now minus N days", "type": "number", "step": "1", "hint": "Offset if using 'now minus N days'"},
-        {"name": "SHIFT_AGGRESSIVE_RAW_REWRITE", "label": "Aggressive raw rewrite", "type": "checkbox", "hint": "Also rewrite ISO-like strings in _raw beyond known keys"},
+        {"name": "SHIFT_AGGRESSIVE_RAW_REWRITE", "label": "Rewrite raw timestamps", "type": "checkbox", "hint": "Rewrite ISO-like strings in _raw and known timestamp fields"},
+        {"name": "SHIFT_OUTPUT_DIR", "label": "Output dir", "type": "text", "hint": "Where shifted files are written"},
     ])
     if request.method != "POST":
+        latest_val = os.getenv("SHIFT_TARGET_LATEST_ISO", "")
         iso_val = os.getenv("SHIFT_TARGET_EARLIEST_ISO", "")
-        mode_default = "iso" if iso_val else "days"
+        mode_default = "latest" if latest_val else ("iso" if iso_val else "days")
         for f in fields:
             if f["name"] == "SHIFT_MODE":
                 f["value"] = mode_default
@@ -801,13 +961,11 @@ def robbybird():
     except Exception:
         sprite_uri = None
     game_html = """
-    <div class="panel" style="margin-top:12px;">
-      <div class="panel__header">Robbybird</div>
-      <div class="panel__body">
-        <canvas id="game" width="800" height="540" style="border:1px solid var(--border-1); background: var(--surface-2); display:block; margin:auto;"></canvas>
-        <div style="margin-top:8px; text-align:center; color:var(--text-3);">Click or press Space to flap. Avoid the pipes.</div>
-        <div id="game-status" style="margin-top:6px;text-align:center;color:var(--text-3);font-size:12px;">Init...</div>
-      </div>
+    <div style="margin-top:4px; display:flex; flex-direction:column; gap:8px;">
+      <h2 style="margin:0;">Robbybird</h2>
+      <canvas id="game" width="800" height="540" style="border:1px solid var(--border-1); background: var(--surface-2); display:block; margin:auto;"></canvas>
+      <div style="text-align:center; color:var(--text-3);">Click or press Space to flap. Avoid the pipes.</div>
+      <div id="game-status" style="text-align:center;color:var(--text-3);font-size:12px;">Init...</div>
     </div>
     <script>
       (() => {
@@ -1050,5 +1208,5 @@ def scan_summary_route():
 
 
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", "5000"))
+    port = int(os.getenv("PORT", "8883"))
     app.run(host="0.0.0.0", port=port, debug=True)
