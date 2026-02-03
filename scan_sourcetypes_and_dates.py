@@ -120,7 +120,8 @@ def extract_raw_timestamps(raw: str):
     return out
 
 def main():
-    files = sorted(glob.glob(INPUT_GLOB))
+    # collect only files (skip directories if the glob is too broad)
+    files = sorted([p for p in glob.glob(INPUT_GLOB, recursive=True) if os.path.isfile(p)])
     if not files:
         print(f"No files matched {INPUT_GLOB}", flush=True)
         return

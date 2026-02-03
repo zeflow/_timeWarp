@@ -6,6 +6,7 @@
 __pycache__/
 export*/
 shifted*/
+data_dir/* 
 
 # Editor/OS files
 .DS_Store

@@ -948,6 +948,20 @@ def upload():
     if request.method == "POST":
         env_updates = {f["name"]: request.form.get(f["name"], "") for f in fields}
         update_config_from_form(request.form)
+        # Resolve glob and validate files before starting
+        glob_pattern = env_updates.get("HEC_INPUT_GLOB", "")
+        resolved_glob = glob_pattern
+        if glob_pattern and not os.path.isabs(glob_pattern):
+            resolved_glob = str((BASE_DIR / glob_pattern).resolve())
+        import glob as _glob
+        files = _glob.glob(resolved_glob)
+        if not files:
+            msg = f"No files matched glob: {resolved_glob}"
+            TASKS["upload"]["log"] = [msg + "\n"]
+            TASKS["upload"]["running"] = False
+            return render_page("Upload", fields, "Run upload", task_slug="upload", show_tabs=False, result=msg, success=False)
+        # Prepend resolved info to log
+        TASKS["upload"]["log"] = [f"Resolved input glob: {resolved_glob}\nFound {len(files)} files\n"]
         start_task("upload", "upload_data_hec.py", env_updates)
     return render_page("Upload", fields, "Run upload", task_slug="upload", show_tabs=False)
 
