@@ -1,0 +1,53 @@
+:root {
+  /* Core neutrals */
+  /* Core based on the Delorean image (deep teal + midnight) */
+  --bg-0: #0a0a14;
+  --bg-1: #0d101f;
+  --surface-1: #121528;
+  --surface-2: #191c33;
+  --border-1: #272a42;
+  --border-2: #323650;
+  --text-1: #f6eafb;
+  --text-2: #d7c9e6;
+  --text-3: #a39cb8;
+
+  /* Brand / accents — Synthwave */
+  --accent-1: #ff8a3d;         /* warm neon orange */
+  --accent-1-strong: #ff6f1e;
+  --accent-1-weak: rgba(255,138,61,0.18);
+  --accent-2: #ff5fa8;         /* supporting pink/magenta */
+  --accent-3: #c986ff;         /* purple */
+
+  /* Status */
+  --status-success: #41e6a3;
+  --status-warn: #ffbb55;
+  --status-error: #ff5c8d;
+  --status-info: #ff4fd8;
+
+  /* Data viz palette */
+  --viz-1: #ff8a3d;
+  --viz-2: #ff5fa8;
+  --viz-3: #ffb25c;
+  --viz-4: #ff79c6;
+  --viz-5: #ffce7a;
+  --viz-6: #f78fb3;
+  --viz-7: #ffa864;
+  --viz-8: #d7a1ff;
+
+  /* Interaction */
+  --focus-ring: 0 0 0 2px rgba(255,79,216,0.35);
+  --hover-surface: #1f233a;
+}
+
+[data-theme="dark"] {
+  --bg-0: #080812;
+  --bg-1: #0b0e1a;
+  --surface-1: #11142a;
+  --surface-2: #171b33;
+  --border-1: #25293f;
+  --border-2: #2e3351;
+  --text-1: #f6eafb;
+  --text-2: #d7c9e6;
+  --text-3: #a39cb8;
+  --accent-1-weak: rgba(255,79,216,0.22);
+}

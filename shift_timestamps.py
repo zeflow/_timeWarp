@@ -26,13 +26,25 @@ def env_bool(name: str, default: bool = False) -> bool:
 
 
 # How to choose the shift (env-configurable):
+# Shift mode: iso (earliest), days (now minus), latest (pin latest)
+SHIFT_MODE = os.getenv("SHIFT_MODE", "iso").lower()
+
 # Option A: pin earliest event to this absolute time (ISO)
-# Example env: SHIFT_TARGET_EARLIEST_ISO=2025-12-01T00:00:00Z
 TARGET_EARLIEST_TIME_ISO = os.getenv("SHIFT_TARGET_EARLIEST_ISO")
 
 # Option B: pin earliest event to "now minus N days"
-# Used when TARGET_EARLIEST_TIME_ISO is None
-TARGET_EARLIEST_NOW_MINUS_DAYS = int(os.getenv("SHIFT_TARGET_EARLIEST_NOW_MINUS_DAYS", "7"))
+try:
+    TARGET_EARLIEST_NOW_MINUS_DAYS = int(os.getenv("SHIFT_TARGET_EARLIEST_NOW_MINUS_DAYS", "7") or "7")
+except ValueError:
+    TARGET_EARLIEST_NOW_MINUS_DAYS = 7
+
+# Option C: pin latest event to this absolute time (ISO)
+TARGET_LATEST_TIME_ISO = os.getenv("SHIFT_TARGET_LATEST_ISO")
+# Optional relative latest: if ISO is empty and mode=latest, use now minus N days
+try:
+    TARGET_LATEST_NOW_MINUS_DAYS = int(os.getenv("SHIFT_TARGET_LATEST_NOW_MINUS_DAYS", "0") or "0")
+except ValueError:
+    TARGET_LATEST_NOW_MINUS_DAYS = 0
 
 # Raw timestamp rewriting behavior:
 # False = only rewrite known timestamp keys (safer)
@@ -212,25 +224,71 @@ def find_min_time(files: list[str]) -> datetime:
         raise RuntimeError("Could not find any parsable _time in input.")
     return min_dt
 
+def find_max_time(files: list[str]) -> datetime:
+    max_dt = None
+    for path in files:
+        with open(path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    ev = json.loads(line)
+                except Exception:
+                    continue
+                t = ev.get("_time")
+                if isinstance(t, str):
+                    dt = parse_iso_any(t)
+                    if dt is not None:
+                        max_dt = dt if max_dt is None else max(max_dt, dt)
+    if max_dt is None:
+        raise RuntimeError("Could not find any parsable _time in input.")
+    return max_dt
+
 def main():
     files = sorted(glob.glob(INPUT_GLOB))
     if not files:
         raise SystemExit(f"No files matched {INPUT_GLOB}")
 
     src_min = find_min_time(files)
+    src_max = find_max_time(files) if 'find_max_time' in globals() else src_min
 
-    if TARGET_EARLIEST_TIME_ISO:
-        target_min = parse_iso_any(TARGET_EARLIEST_TIME_ISO)
-        if target_min is None:
-            raise SystemExit(f"Could not parse TARGET_EARLIEST_TIME_ISO: {TARGET_EARLIEST_TIME_ISO}")
-    else:
+    mode = SHIFT_MODE
+    if mode not in {"iso", "days", "latest"}:
+        mode = "iso"
+
+    if mode == "latest":
+        if TARGET_LATEST_TIME_ISO:
+            target_latest = parse_iso_any(TARGET_LATEST_TIME_ISO)
+            if target_latest is None:
+                raise SystemExit(f"Could not parse SHIFT_TARGET_LATEST_ISO: {TARGET_LATEST_TIME_ISO}")
+        elif TARGET_LATEST_NOW_MINUS_DAYS > 0:
+            target_latest = datetime.now(timezone.utc) - timedelta(days=TARGET_LATEST_NOW_MINUS_DAYS)
+        else:
+            mode = "days"  # fallback if nothing set
+            target_latest = None
+
+        if target_latest is not None and mode == "latest":
+            delta = target_latest - src_max
+            target_desc = f"target latest _time: {target_latest.isoformat()}"
+    if mode == "iso":
+        if not TARGET_EARLIEST_TIME_ISO:
+            mode = "days"  # fallback
+        else:
+            target_min = parse_iso_any(TARGET_EARLIEST_TIME_ISO)
+            if target_min is None:
+                raise SystemExit(f"Could not parse SHIFT_TARGET_EARLIEST_ISO: {TARGET_EARLIEST_TIME_ISO}")
+            delta = target_min - src_min
+            target_desc = f"target earliest _time: {target_min.isoformat()}"
+    if mode == "days":
         target_min = datetime.now(timezone.utc) - timedelta(days=TARGET_EARLIEST_NOW_MINUS_DAYS)
-
-    delta = target_min - src_min
+        delta = target_min - src_min
+        target_desc = f"target earliest _time: {target_min.isoformat()} (now minus {TARGET_EARLIEST_NOW_MINUS_DAYS} days)"
 
     print(f"Input files: {len(files)}")
     print(f"Earliest _time in data: {src_min.isoformat()}")
-    print(f"Target earliest _time:  {target_min.isoformat()}")
+    print(f"Latest _time in data:   {src_max.isoformat()}")
+    print(target_desc)
     print(f"Delta applied:          {delta}")
     print(f"AGGRESSIVE_RAW_REWRITE: {AGGRESSIVE_RAW_REWRITE}")
     print(f"Writing to:             {OUT_DIR}/")

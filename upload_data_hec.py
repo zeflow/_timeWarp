@@ -21,6 +21,8 @@ load_env()
 
 # Input files
 INPUT_GLOB = os.getenv("HEC_INPUT_GLOB", "shifted/*.jsonl")
+# Optional: ignore existing checkpoint (set to true to resend everything)
+RESET_CHECKPOINT = os.getenv("HEC_RESET_CHECKPOINT", "").lower() in {"1","true","yes","y","on"}
 
 # HEC endpoint (usually https://<splunk-host>:8088)
 HEC_BASE = require_env("SPLUNK_HEC_BASE_URL")
@@ -209,6 +211,14 @@ def main():
     }
 
     ck_file, ck_line = load_checkpoint()
+    if RESET_CHECKPOINT:
+        ck_file, ck_line = None, 0
+    elif ck_file and ck_file not in files:
+        print(f"Checkpoint file '{ck_file}' not in current glob; resetting checkpoint.")
+        ck_file, ck_line = None, 0
+
+    print(f"Resolved input glob: {os.path.abspath(INPUT_GLOB)}")
+    print(f"Found {len(files)} files to upload.")
 
     session = requests.Session()
 

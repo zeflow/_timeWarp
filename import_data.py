@@ -268,7 +268,7 @@ def main() -> None:
         current = nxt
 
     total = len(windows)
-    print(f"Preparing {total} four-hour windows between {START} and {END}...")
+    print(f"Preparing {total} windows between {START} and {END}...")
 
     grand_total = 0
     for i, (start, end) in enumerate(windows, start=1):
