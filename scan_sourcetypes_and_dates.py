@@ -120,10 +120,9 @@ def extract_raw_timestamps(raw: str):
     return out
 
 def main():
-    # collect only files (skip directories if the glob is too broad)
-    files = sorted([p for p in glob.glob(INPUT_GLOB, recursive=True) if os.path.isfile(p)])
+    files = sorted(glob.glob(INPUT_GLOB))
     if not files:
-        print(f"No files matched {INPUT_GLOB}", flush=True)
+        print(f"No files matched {INPUT_GLOB}")
         return
 
     print(f"Found {len(files)} files to scan (glob: {INPUT_GLOB})", flush=True)
@@ -177,7 +176,7 @@ def main():
 
     # Print summary
     print(f"Scanned events: {total_events}")
-    print(f"Distinct sourcetype: {len(outer_time_range)}\n")
+    print(f"Distinct sourcetypes: {len(outer_time_range)}\n")
 
     summary = {
         "input_glob": INPUT_GLOB,
@@ -202,6 +201,7 @@ def main():
         }
 
         if st in hist_buckets:
+            # Convert buckets to sorted list of dicts
             buckets = hist_buckets[st]
             st_entry["total_events"] = sum(buckets.values())
             st_entry["histogram"] = [

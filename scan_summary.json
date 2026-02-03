@@ -1,0 +1,3780 @@
+{
+  "input_glob": "export_bots_data4/*.jsonl",
+  "total_events": 10964981,
+  "bucket_seconds": 86400,
+  "sourcetypes": [
+    {
+      "sourcetype": "ActiveDirectory",
+      "time_range": {
+        "min": "2020-08-26T00:10:04+00:00",
+        "max": "2020-08-28T14:11:15+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 55
+        },
+        {
+          "ts": 1598486400,
+          "count": 51
+        },
+        {
+          "ts": 1598572800,
+          "count": 31
+        }
+      ],
+      "total_events": 137
+    },
+    {
+      "sourcetype": "GSuiteForSplunk:error",
+      "time_range": {
+        "min": "2020-08-26T01:17:36+00:00",
+        "max": "2020-08-28T14:54:28+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:timestamp",
+          "count": 12,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 12
+        },
+        {
+          "ts": 1598486400,
+          "count": 12
+        },
+        {
+          "ts": 1598572800,
+          "count": 12
+        }
+      ],
+      "total_events": 36
+    },
+    {
+      "sourcetype": "MSAD:NT6:DNS-Health",
+      "time_range": {
+        "min": "2020-08-26T00:01:54+00:00",
+        "max": "2020-08-28T14:01:57+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 24
+        },
+        {
+          "ts": 1598486400,
+          "count": 22
+        },
+        {
+          "ts": 1598572800,
+          "count": 15
+        }
+      ],
+      "total_events": 61
+    },
+    {
+      "sourcetype": "MSAD:NT6:DNS-Zone-Information",
+      "time_range": {
+        "min": "2020-08-26T00:01:54+00:00",
+        "max": "2020-08-28T14:01:58+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 177
+        },
+        {
+          "ts": 1598486400,
+          "count": 176
+        },
+        {
+          "ts": 1598572800,
+          "count": 120
+        }
+      ],
+      "total_events": 473
+    },
+    {
+      "sourcetype": "MSAD:NT6:Health",
+      "time_range": {
+        "min": "2020-08-26T00:00:00+00:00",
+        "max": "2020-08-28T14:51:57+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 519
+        },
+        {
+          "ts": 1598486400,
+          "count": 451
+        },
+        {
+          "ts": 1598572800,
+          "count": 329
+        }
+      ],
+      "total_events": 1299
+    },
+    {
+      "sourcetype": "MSAD:NT6:SiteInfo",
+      "time_range": {
+        "min": "2020-08-26T00:01:54+00:00",
+        "max": "2020-08-28T14:15:00+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 84
+        },
+        {
+          "ts": 1598486400,
+          "count": 78
+        },
+        {
+          "ts": 1598572800,
+          "count": 48
+        }
+      ],
+      "total_events": 210
+    },
+    {
+      "sourcetype": "Perfmon:Available Memory",
+      "time_range": {
+        "min": "2020-08-18T18:31:00+00:00",
+        "max": "2020-08-18T21:59:50+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1597708800,
+          "count": 1190
+        }
+      ],
+      "total_events": 1190
+    },
+    {
+      "sourcetype": "Perfmon:CPU Load",
+      "time_range": {
+        "min": "2020-08-18T18:31:00+00:00",
+        "max": "2020-08-18T21:59:50+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1597708800,
+          "count": 2321
+        }
+      ],
+      "total_events": 2321
+    },
+    {
+      "sourcetype": "Perfmon:Free Disk Space",
+      "time_range": {
+        "min": "2020-08-18T19:24:20+00:00",
+        "max": "2020-08-18T21:24:21+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1597708800,
+          "count": 6
+        }
+      ],
+      "total_events": 6
+    },
+    {
+      "sourcetype": "Perfmon:Network Interface",
+      "time_range": {
+        "min": "2020-08-18T18:31:00+00:00",
+        "max": "2020-08-18T21:59:50+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1597708800,
+          "count": 2380
+        }
+      ],
+      "total_events": 2380
+    },
+    {
+      "sourcetype": "Powershell:ScriptExecutionErrorRecord",
+      "time_range": {
+        "min": "2020-08-26T00:15:00+00:00",
+        "max": "2020-08-28T13:15:00+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 62
+        },
+        {
+          "ts": 1598486400,
+          "count": 111
+        },
+        {
+          "ts": 1598572800,
+          "count": 35
+        }
+      ],
+      "total_events": 208
+    },
+    {
+      "sourcetype": "Powershell:ScriptExecutionSummary",
+      "time_range": {
+        "min": "2020-08-26T00:00:01+00:00",
+        "max": "2020-08-28T14:50:03+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 598
+        },
+        {
+          "ts": 1598486400,
+          "count": 581
+        },
+        {
+          "ts": 1598572800,
+          "count": 373
+        }
+      ],
+      "total_events": 1552
+    },
+    {
+      "sourcetype": "Script:GetEndpointInfo",
+      "time_range": {
+        "min": "2020-08-26T11:11:35+00:00",
+        "max": "2020-08-27T20:53:05+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 3
+        },
+        {
+          "ts": 1598486400,
+          "count": 8
+        }
+      ],
+      "total_events": 11
+    },
+    {
+      "sourcetype": "Script:InstalledApps",
+      "time_range": {
+        "min": "2020-08-18T19:28:57.274000+00:00",
+        "max": "2020-08-28T14:10:47.222000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1597708800,
+          "count": 234
+        },
+        {
+          "ts": 1598400000,
+          "count": 855
+        },
+        {
+          "ts": 1598486400,
+          "count": 932
+        },
+        {
+          "ts": 1598572800,
+          "count": 63
+        }
+      ],
+      "total_events": 2084
+    },
+    {
+      "sourcetype": "Script:ListeningPorts",
+      "time_range": {
+        "min": "2020-08-18T18:33:25.223000+00:00",
+        "max": "2020-08-28T14:12:20.987000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1597708800,
+          "count": 828
+        },
+        {
+          "ts": 1598400000,
+          "count": 3760
+        },
+        {
+          "ts": 1598486400,
+          "count": 4463
+        },
+        {
+          "ts": 1598572800,
+          "count": 1980
+        }
+      ],
+      "total_events": 11031
+    },
+    {
+      "sourcetype": "Script:NetworkConfiguration",
+      "time_range": {
+        "min": "2020-08-18T19:27:59+00:00",
+        "max": "2020-08-28T14:09:30+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1597708800,
+          "count": 8
+        },
+        {
+          "ts": 1598400000,
+          "count": 30
+        },
+        {
+          "ts": 1598486400,
+          "count": 38
+        },
+        {
+          "ts": 1598572800,
+          "count": 2
+        }
+      ],
+      "total_events": 78
+    },
+    {
+      "sourcetype": "Script:TimesyncConfiguration",
+      "time_range": {
+        "min": "2020-08-18T18:33:28+00:00",
+        "max": "2020-08-28T14:12:21+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1597708800,
+          "count": 28
+        },
+        {
+          "ts": 1598400000,
+          "count": 95
+        },
+        {
+          "ts": 1598486400,
+          "count": 119
+        },
+        {
+          "ts": 1598572800,
+          "count": 45
+        }
+      ],
+      "total_events": 287
+    },
+    {
+      "sourcetype": "Script:TimesyncStatus",
+      "time_range": {
+        "min": "2020-08-18T18:33:29+00:00",
+        "max": "2020-08-28T14:12:18+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1597708800,
+          "count": 28
+        },
+        {
+          "ts": 1598400000,
+          "count": 95
+        },
+        {
+          "ts": 1598486400,
+          "count": 119
+        },
+        {
+          "ts": 1598572800,
+          "count": 45
+        }
+      ],
+      "total_events": 287
+    },
+    {
+      "sourcetype": "Unix:ListeningPorts",
+      "time_range": {
+        "min": "2020-08-26T00:05:08+00:00",
+        "max": "2020-08-28T14:05:07+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 404
+        },
+        {
+          "ts": 1598486400,
+          "count": 431
+        },
+        {
+          "ts": 1598572800,
+          "count": 310
+        }
+      ],
+      "total_events": 1145
+    },
+    {
+      "sourcetype": "Unix:Service",
+      "time_range": {
+        "min": "2020-08-26T00:05:11+00:00",
+        "max": "2020-08-28T14:05:10+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 2280
+        },
+        {
+          "ts": 1598486400,
+          "count": 2195
+        },
+        {
+          "ts": 1598572800,
+          "count": 1440
+        }
+      ],
+      "total_events": 5915
+    },
+    {
+      "sourcetype": "XmlWinEventLog",
+      "time_range": {
+        "min": "2020-08-18T18:31:00+00:00",
+        "max": "2020-08-28T14:53:15+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "xml:TimeCreated.SystemTime",
+          "count": 498942,
+          "range": {
+            "min": "2020-08-18T18:31:00.468229+00:00",
+            "max": "2020-08-28T14:53:15.571583+00:00"
+          }
+        },
+        {
+          "field": "xml:Data.SubjectUserName",
+          "count": 146931,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.ProcessName",
+          "count": 94190,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.ObjectName",
+          "count": 15665,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.CommandLine",
+          "count": 10660,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.LinkName",
+          "count": 8530,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.FileName",
+          "count": 8481,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.TargetObject",
+          "count": 7909,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.TargetUserSid",
+          "count": 3434,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.ProcessCreationTime",
+          "count": 3321,
+          "range": {
+            "min": "2020-08-07T23:47:58.982828+00:00",
+            "max": "2020-08-28T14:20:17.907909+00:00"
+          }
+        },
+        {
+          "field": "xml:Data.GroupMembership",
+          "count": 2604,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.SubjectUserSid",
+          "count": 2189,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.SubjectDomainName",
+          "count": 2189,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.TargetDomainName",
+          "count": 2131,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.TargetUserName",
+          "count": 1898,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.RuleName",
+          "count": 1804,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.TargetFilename",
+          "count": 1593,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.ParentCommandLine",
+          "count": 1074,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.TargetSid",
+          "count": 782,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.Image",
+          "count": 648,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.NewProcessName",
+          "count": 638,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.ClientCreationTime",
+          "count": 617,
+          "range": {
+            "min": "2020-08-13T05:49:44.210480+00:00",
+            "max": "2020-08-27T21:35:45.869579+00:00"
+          }
+        },
+        {
+          "field": "xml:Data.updateTitle",
+          "count": 347,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.DeviceTime",
+          "count": 209,
+          "range": {
+            "min": "1974-08-09T13:33:30+00:00",
+            "max": "2096-10-27T13:24:16+00:00"
+          }
+        },
+        {
+          "field": "xml:Data.Workstation",
+          "count": 167,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.User",
+          "count": 167,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.param1",
+          "count": 152,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.WorkstationName",
+          "count": 105,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.KeyFilePath",
+          "count": 65,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.ServicePrincipalNames",
+          "count": 62,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.Path",
+          "count": 53,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.ParentProcessName",
+          "count": 51,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.ScriptBlockText",
+          "count": 47,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.NewTime",
+          "count": 46,
+          "range": {
+            "min": "2020-08-18T19:53:21.937000+00:00",
+            "max": "2020-08-27T19:00:02.895000+00:00"
+          }
+        },
+        {
+          "field": "xml:Data.TargetName",
+          "count": 44,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.ServiceSid",
+          "count": 41,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.QueryName",
+          "count": 40,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.Details",
+          "count": 28,
+          "range": {
+            "min": "2020-08-27T00:17:39+00:00",
+            "max": "2020-08-27T17:00:25+00:00"
+          }
+        },
+        {
+          "field": "xml:Data.OldTime",
+          "count": 24,
+          "range": {
+            "min": "2020-08-18T19:52:20.633777+00:00",
+            "max": "2020-08-27T18:59:43.132483+00:00"
+          }
+        },
+        {
+          "field": "xml:Data.PreviousTime",
+          "count": 22,
+          "range": {
+            "min": "2020-08-18T19:52:20.633777+00:00",
+            "max": "2020-08-27T18:59:43.132483+00:00"
+          }
+        },
+        {
+          "field": "xml:Data.ContextInfo",
+          "count": 18,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.ServiceName",
+          "count": 18,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.CurrentDirectory",
+          "count": 18,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.Description",
+          "count": 16,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.StartTime",
+          "count": 14,
+          "range": {
+            "min": "2020-08-18T19:59:54.500000+00:00",
+            "max": "2020-08-27T18:23:47.500000+00:00"
+          }
+        },
+        {
+          "field": "xml:Data.param2",
+          "count": 11,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.StopTime",
+          "count": 11,
+          "range": {
+            "min": "2020-08-26T15:56:49.822219+00:00",
+            "max": "2020-08-27T18:23:40.505330+00:00"
+          }
+        },
+        {
+          "field": "xml:Data.Payload",
+          "count": 10,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.ParentImage",
+          "count": 10,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.param6",
+          "count": 10,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.Contents",
+          "count": 8,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.SessionName",
+          "count": 8,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.AccountDomain",
+          "count": 6,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.param7",
+          "count": 2,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.QueryResults",
+          "count": 2,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.ImagePath",
+          "count": 1,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.OldSd",
+          "count": 1,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.NewSd",
+          "count": 1,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.Username",
+          "count": 1,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1597708800,
+          "count": 113561
+        },
+        {
+          "ts": 1598400000,
+          "count": 179879
+        },
+        {
+          "ts": 1598486400,
+          "count": 166217
+        },
+        {
+          "ts": 1598572800,
+          "count": 39285
+        }
+      ],
+      "total_events": 498942
+    },
+    {
+      "sourcetype": "XmlWinEventLog:Microsoft-Windows-Powershell/Operational",
+      "time_range": {
+        "min": "2020-08-26T00:00:00+00:00",
+        "max": "2020-08-28T14:51:59+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "xml:TimeCreated.SystemTime",
+          "count": 7771,
+          "range": {
+            "min": "2020-08-26T00:00:00.019217+00:00",
+            "max": "2020-08-28T14:51:59.893066+00:00"
+          }
+        },
+        {
+          "field": "xml:Data.ContextInfo",
+          "count": 1976,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.Payload",
+          "count": 1556,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.Path",
+          "count": 770,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.ScriptBlockText",
+          "count": 760,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 2955
+        },
+        {
+          "ts": 1598486400,
+          "count": 2983
+        },
+        {
+          "ts": 1598572800,
+          "count": 1833
+        }
+      ],
+      "total_events": 7771
+    },
+    {
+      "sourcetype": "access-too_small",
+      "time_range": {
+        "min": "2020-08-26T00:00:24+00:00",
+        "max": "2020-08-27T22:45:45+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 1770
+        },
+        {
+          "ts": 1598486400,
+          "count": 31862
+        }
+      ],
+      "total_events": 33632
+    },
+    {
+      "sourcetype": "access_log-too_small",
+      "time_range": {
+        "min": "2020-08-27T06:07:59+00:00",
+        "max": "2020-08-27T22:41:53+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598486400,
+          "count": 125
+        }
+      ],
+      "total_events": 125
+    },
+    {
+      "sourcetype": "apache_error",
+      "time_range": {
+        "min": "2020-08-26T03:31:03+00:00",
+        "max": "2020-08-28T13:25:01.836000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 13
+        },
+        {
+          "ts": 1598486400,
+          "count": 18
+        },
+        {
+          "ts": 1598572800,
+          "count": 3
+        }
+      ],
+      "total_events": 34
+    },
+    {
+      "sourcetype": "aws:cloudtrail",
+      "time_range": {
+        "min": "2020-07-29T12:28:40+00:00",
+        "max": "2020-07-29T14:21:29+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:eventTime",
+          "count": 101,
+          "range": {
+            "min": "2020-07-29T12:26:44+00:00",
+            "max": "2020-07-29T14:19:08+00:00"
+          }
+        },
+        {
+          "field": "json:creationDate",
+          "count": 99,
+          "range": {
+            "min": "2020-07-29T10:51:51+00:00",
+            "max": "2020-07-29T14:19:08+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 101
+        }
+      ],
+      "total_events": 101
+    },
+    {
+      "sourcetype": "aws:cloudwatchlogs:eks",
+      "time_range": {
+        "min": "2020-07-29T12:14:48+00:00",
+        "max": "2020-07-29T14:21:45+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:requestReceivedTimestamp",
+          "count": 81196,
+          "range": {
+            "min": "2020-07-29T11:23:22.595504+00:00",
+            "max": "2020-07-29T14:20:41.849324+00:00"
+          }
+        },
+        {
+          "field": "json:stageTimestamp",
+          "count": 81196,
+          "range": {
+            "min": "2020-07-29T12:12:38.125985+00:00",
+            "max": "2020-07-29T14:20:41.854408+00:00"
+          }
+        },
+        {
+          "field": "json:lastHeartbeatTime",
+          "count": 1896,
+          "range": {
+            "min": "2020-07-29T12:13:02+00:00",
+            "max": "2020-07-29T14:19:45+00:00"
+          }
+        },
+        {
+          "field": "json:lastTransitionTime",
+          "count": 911,
+          "range": {
+            "min": "2020-05-13T12:42:51+00:00",
+            "max": "2020-07-29T14:08:13+00:00"
+          }
+        },
+        {
+          "field": "json:creationTimestamp",
+          "count": 676,
+          "range": {
+            "min": "2020-05-13T12:42:45+00:00",
+            "max": "2020-07-29T14:07:36+00:00"
+          }
+        },
+        {
+          "field": "json:lastUpdateTime",
+          "count": 436,
+          "range": {
+            "min": "2020-05-13T12:47:54+00:00",
+            "max": "2020-07-29T14:08:13+00:00"
+          }
+        },
+        {
+          "field": "json:startedAt",
+          "count": 225,
+          "range": {
+            "min": "2020-07-28T15:40:44+00:00",
+            "max": "2020-07-29T14:08:12+00:00"
+          }
+        },
+        {
+          "field": "json:finishedAt",
+          "count": 139,
+          "range": {
+            "min": "2020-07-28T20:23:59+00:00",
+            "max": "2020-07-29T14:01:55+00:00"
+          }
+        },
+        {
+          "field": "json:startTime",
+          "count": 113,
+          "range": {
+            "min": "2020-07-28T15:40:34+00:00",
+            "max": "2020-07-29T14:07:36+00:00"
+          }
+        },
+        {
+          "field": "json:deletionTimestamp",
+          "count": 44,
+          "range": {
+            "min": "2020-07-29T13:48:55+00:00",
+            "max": "2020-07-29T14:08:06+00:00"
+          }
+        },
+        {
+          "field": "json:endpoints.kubernetes.io/last-change-trigger-time",
+          "count": 24,
+          "range": {
+            "min": "2020-07-29T13:20:16+00:00",
+            "max": "2020-07-29T14:08:09+00:00"
+          }
+        },
+        {
+          "field": "json:expirationTimestamp",
+          "count": 17,
+          "range": {
+            "min": "2020-07-29T13:14:11+00:00",
+            "max": "2020-07-30T14:07:37+00:00"
+          }
+        },
+        {
+          "field": "json:timeAdded",
+          "count": 8,
+          "range": {
+            "min": "2020-07-29T14:01:33+00:00",
+            "max": "2020-07-29T14:02:36+00:00"
+          }
+        },
+        {
+          "field": "json:lastProbeTime",
+          "count": 2,
+          "range": {
+            "min": "2020-07-29T13:47:32+00:00",
+            "max": "2020-07-29T13:47:32+00:00"
+          }
+        },
+        {
+          "field": "json:completionTime",
+          "count": 2,
+          "range": {
+            "min": "2020-07-29T13:47:32+00:00",
+            "max": "2020-07-29T13:47:32+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 89160
+        }
+      ],
+      "total_events": 89160
+    },
+    {
+      "sourcetype": "aws:elb:accesslogs",
+      "time_range": {
+        "min": "2020-07-29T12:23:41.691000+00:00",
+        "max": "2020-07-29T14:11:50.954000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 9010
+        }
+      ],
+      "total_events": 9010
+    },
+    {
+      "sourcetype": "azure:aad:signin",
+      "time_range": {
+        "min": "2020-08-18T18:32:02.295000+00:00",
+        "max": "2020-08-18T21:53:01.732000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:createdDateTime",
+          "count": 152,
+          "range": {
+            "min": "2020-08-18T18:32:02.295258+00:00",
+            "max": "2020-08-18T21:53:01.732174+00:00"
+          }
+        },
+        {
+          "field": "json:authenticationStepDateTime",
+          "count": 122,
+          "range": {
+            "min": "2020-08-18T18:32:02.295258+00:00",
+            "max": "2020-08-18T21:53:01.732174+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1597708800,
+          "count": 152
+        }
+      ],
+      "total_events": 152
+    },
+    {
+      "sourcetype": "azure:eventhub",
+      "time_range": {
+        "min": "2020-08-18T20:44:29+00:00",
+        "max": "2020-08-18T21:03:55.041000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:time",
+          "count": 374,
+          "range": {
+            "min": "2020-08-18T20:44:30.612749+00:00",
+            "max": "2020-08-18T20:58:51.117739+00:00"
+          }
+        },
+        {
+          "field": "json:originalEventTimestamp",
+          "count": 364,
+          "range": {
+            "min": "2020-08-18T20:44:30.612665+00:00",
+            "max": "2020-08-18T20:52:53.914095+00:00"
+          }
+        },
+        {
+          "field": "json:event_time",
+          "count": 364,
+          "range": {
+            "min": "2020-08-18T20:44:29.815000+00:00",
+            "max": "2020-08-18T20:52:53.678000+00:00"
+          }
+        },
+        {
+          "field": "json:StartTimeUtc",
+          "count": 4,
+          "range": {
+            "min": "2020-08-18T20:44:29+00:00",
+            "max": "2020-08-18T21:03:55.041689+00:00"
+          }
+        },
+        {
+          "field": "json:EndTimeUtc",
+          "count": 4,
+          "range": {
+            "min": "2020-08-18T20:44:29+00:00",
+            "max": "2020-08-18T21:58:21.389019+00:00"
+          }
+        },
+        {
+          "field": "json:TimeGenerated",
+          "count": 4,
+          "range": {
+            "min": "2020-08-18T21:01:10.090358+00:00",
+            "max": "2020-08-18T22:11:26.121549+00:00"
+          }
+        },
+        {
+          "field": "json:ProcessingEndTime",
+          "count": 4,
+          "range": {
+            "min": "2020-08-18T21:01:10.090358+00:00",
+            "max": "2020-08-18T22:12:23.759788+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1597708800,
+          "count": 382
+        }
+      ],
+      "total_events": 382
+    },
+    {
+      "sourcetype": "dpkg-too_small",
+      "time_range": {
+        "min": "2020-08-27T12:58:06+00:00",
+        "max": "2020-08-27T13:15:09+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598486400,
+          "count": 88
+        }
+      ],
+      "total_events": 88
+    },
+    {
+      "sourcetype": "error-too_small",
+      "time_range": {
+        "min": "2020-08-27T09:20:49.524000+00:00",
+        "max": "2020-08-28T06:45:38.040000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598486400,
+          "count": 9
+        },
+        {
+          "ts": 1598572800,
+          "count": 8
+        }
+      ],
+      "total_events": 17
+    },
+    {
+      "sourcetype": "fail2ban-2",
+      "time_range": {
+        "min": "2020-08-27T13:03:00.635000+00:00",
+        "max": "2020-08-27T13:33:01.344000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598486400,
+          "count": 2
+        }
+      ],
+      "total_events": 2
+    },
+    {
+      "sourcetype": "fluentd:monitor-agent",
+      "time_range": {
+        "min": "2020-07-29T12:14:55.233000+00:00",
+        "max": "2020-07-29T14:21:30.938000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 10373
+        }
+      ],
+      "total_events": 10373
+    },
+    {
+      "sourcetype": "freepbx-2",
+      "time_range": {
+        "min": "2020-08-26T00:00:20+00:00",
+        "max": "2020-08-28T07:53:06+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 14288
+        },
+        {
+          "ts": 1598486400,
+          "count": 13989
+        },
+        {
+          "ts": 1598572800,
+          "count": 4552
+        }
+      ],
+      "total_events": 32829
+    },
+    {
+      "sourcetype": "freepbx_security-too_small",
+      "time_range": {
+        "min": "2020-08-27T14:31:41+00:00",
+        "max": "2020-08-27T14:31:41+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598486400,
+          "count": 2
+        }
+      ],
+      "total_events": 2
+    },
+    {
+      "sourcetype": "gapps:admin:directory:users",
+      "time_range": {
+        "min": "2020-08-26T00:01:29+00:00",
+        "max": "2020-08-28T14:52:33+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:lastLoginTime",
+          "count": 7482,
+          "range": {
+            "min": "1970-01-01T00:00:00+00:00",
+            "max": "2020-08-27T19:50:19+00:00"
+          }
+        },
+        {
+          "field": "json:creationTime",
+          "count": 7482,
+          "range": {
+            "min": "2020-05-19T04:18:19+00:00",
+            "max": "2020-08-27T16:50:41+00:00"
+          }
+        },
+        {
+          "field": "json:timestamp",
+          "count": 2664,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 2136
+        },
+        {
+          "ts": 1598486400,
+          "count": 2664
+        },
+        {
+          "ts": 1598572800,
+          "count": 2682
+        }
+      ],
+      "total_events": 7482
+    },
+    {
+      "sourcetype": "gapps:chrome:api",
+      "time_range": {
+        "min": "2020-08-26T00:01:30+00:00",
+        "max": "2020-08-28T14:52:33+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:timestamp",
+          "count": 693,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 712
+        },
+        {
+          "ts": 1598486400,
+          "count": 693
+        },
+        {
+          "ts": 1598572800,
+          "count": 447
+        }
+      ],
+      "total_events": 1852
+    },
+    {
+      "sourcetype": "gapps:report:admin",
+      "time_range": {
+        "min": "2020-08-27T16:42:47.134000+00:00",
+        "max": "2020-08-27T19:29:52.539000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:time",
+          "count": 11,
+          "range": {
+            "min": "2020-08-27T16:42:47.134000+00:00",
+            "max": "2020-08-27T19:29:52.539000+00:00"
+          }
+        },
+        {
+          "field": "json:timestamp",
+          "count": 11,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1598486400,
+          "count": 11
+        }
+      ],
+      "total_events": 11
+    },
+    {
+      "sourcetype": "gapps:report:drive",
+      "time_range": {
+        "min": "2020-08-26T13:21:47.859000+00:00",
+        "max": "2020-08-27T22:05:19.687000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:time",
+          "count": 35,
+          "range": {
+            "min": "2020-08-26T13:21:47.859000+00:00",
+            "max": "2020-08-27T22:05:19.687000+00:00"
+          }
+        },
+        {
+          "field": "json:timestamp",
+          "count": 26,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "json:viewedByMeTime",
+          "count": 14,
+          "range": {
+            "min": "2020-08-27T17:05:56.631000+00:00",
+            "max": "2020-08-27T21:08:21.946000+00:00"
+          }
+        },
+        {
+          "field": "json:createdTime",
+          "count": 14,
+          "range": {
+            "min": "2020-08-27T17:05:31.555000+00:00",
+            "max": "2020-08-27T17:05:31.555000+00:00"
+          }
+        },
+        {
+          "field": "json:modifiedTime",
+          "count": 14,
+          "range": {
+            "min": "2020-08-27T17:07:38.048000+00:00",
+            "max": "2020-08-27T20:48:18.666000+00:00"
+          }
+        },
+        {
+          "field": "json:modifiedByMeTime",
+          "count": 14,
+          "range": {
+            "min": "2020-08-27T17:07:38.048000+00:00",
+            "max": "2020-08-27T20:48:18.666000+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 9
+        },
+        {
+          "ts": 1598486400,
+          "count": 26
+        }
+      ],
+      "total_events": 35
+    },
+    {
+      "sourcetype": "gapps:report:mobile",
+      "time_range": {
+        "min": "2020-08-26T13:25:27.923000+00:00",
+        "max": "2020-08-28T11:46:13.409000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:time",
+          "count": 7,
+          "range": {
+            "min": "2020-08-26T13:25:27.923000+00:00",
+            "max": "2020-08-28T11:46:13.409000+00:00"
+          }
+        },
+        {
+          "field": "json:timestamp",
+          "count": 5,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 1
+        },
+        {
+          "ts": 1598486400,
+          "count": 5
+        },
+        {
+          "ts": 1598572800,
+          "count": 1
+        }
+      ],
+      "total_events": 7
+    },
+    {
+      "sourcetype": "gapps:report:token",
+      "time_range": {
+        "min": "2020-08-26T11:47:58.768000+00:00",
+        "max": "2020-08-27T22:30:46.189000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:time",
+          "count": 10,
+          "range": {
+            "min": "2020-08-26T11:47:58.768000+00:00",
+            "max": "2020-08-27T22:30:46.189000+00:00"
+          }
+        },
+        {
+          "field": "json:timestamp",
+          "count": 8,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 2
+        },
+        {
+          "ts": 1598486400,
+          "count": 8
+        }
+      ],
+      "total_events": 10
+    },
+    {
+      "sourcetype": "gapps:report:user_accounts",
+      "time_range": {
+        "min": "2020-08-26T13:25:45.110000+00:00",
+        "max": "2020-08-27T19:50:19.569000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:time",
+          "count": 3,
+          "range": {
+            "min": "2020-08-26T13:25:45.110000+00:00",
+            "max": "2020-08-27T19:50:19.569000+00:00"
+          }
+        },
+        {
+          "field": "json:timestamp",
+          "count": 2,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 1
+        },
+        {
+          "ts": 1598486400,
+          "count": 2
+        }
+      ],
+      "total_events": 3
+    },
+    {
+      "sourcetype": "gapps:usage:customer",
+      "time_range": {
+        "min": "2020-08-26T00:00:00+00:00",
+        "max": "2020-08-26T00:00:00+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 1
+        }
+      ],
+      "total_events": 1
+    },
+    {
+      "sourcetype": "gmail:audit:headers",
+      "time_range": {
+        "min": "2020-08-26T13:25:27+00:00",
+        "max": "2020-08-27T21:46:18+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 2
+        },
+        {
+          "ts": 1598486400,
+          "count": 52
+        }
+      ],
+      "total_events": 54
+    },
+    {
+      "sourcetype": "gmail:enforce:audit:ta:output",
+      "time_range": {
+        "min": "2020-08-26T15:39:13.269000+00:00",
+        "max": "2020-08-27T17:34:01.824000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 24
+        },
+        {
+          "ts": 1598486400,
+          "count": 74
+        }
+      ],
+      "total_events": 98
+    },
+    {
+      "sourcetype": "gsuite:directory:user",
+      "time_range": {
+        "min": "2020-08-26T15:39:17.060000+00:00",
+        "max": "2020-08-27T17:34:18.638000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:lastLoginTime",
+          "count": 24,
+          "range": {
+            "min": "1970-01-01T00:00:00+00:00",
+            "max": "2020-08-27T17:18:22+00:00"
+          }
+        },
+        {
+          "field": "json:creationTime",
+          "count": 24,
+          "range": {
+            "min": "2020-05-19T04:18:19+00:00",
+            "max": "2020-08-27T16:50:41+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 6
+        },
+        {
+          "ts": 1598486400,
+          "count": 18
+        }
+      ],
+      "total_events": 24
+    },
+    {
+      "sourcetype": "history-too_small",
+      "time_range": {
+        "min": "2020-08-27T12:58:06+00:00",
+        "max": "2020-08-27T13:15:09+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598486400,
+          "count": 6
+        }
+      ],
+      "total_events": 6
+    },
+    {
+      "sourcetype": "juniper:ive",
+      "time_range": {
+        "min": "2020-08-27T00:55:02+00:00",
+        "max": "2020-08-28T14:57:25+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598486400,
+          "count": 21138
+        },
+        {
+          "ts": 1598572800,
+          "count": 20
+        }
+      ],
+      "total_events": 21158
+    },
+    {
+      "sourcetype": "juniper:junos:firewall",
+      "time_range": {
+        "min": "2020-08-26T00:00:01+00:00",
+        "max": "2020-08-28T14:54:55+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 131814
+        },
+        {
+          "ts": 1598486400,
+          "count": 304840
+        },
+        {
+          "ts": 1598572800,
+          "count": 68287
+        }
+      ],
+      "total_events": 504941
+    },
+    {
+      "sourcetype": "kern-too_small",
+      "time_range": {
+        "min": "2020-08-27T12:58:12+00:00",
+        "max": "2020-08-27T12:58:12+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598486400,
+          "count": 1
+        }
+      ],
+      "total_events": 1
+    },
+    {
+      "sourcetype": "kern.log-too_small",
+      "time_range": {
+        "min": "2020-08-27T12:58:12+00:00",
+        "max": "2020-08-27T12:58:12+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598486400,
+          "count": 1
+        }
+      ],
+      "total_events": 1
+    },
+    {
+      "sourcetype": "kube",
+      "time_range": {
+        "min": "2020-07-29T12:14:52.930000+00:00",
+        "max": "2020-07-29T14:21:43.930000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 326
+        }
+      ],
+      "total_events": 326
+    },
+    {
+      "sourcetype": "kube:container:adminfrontend",
+      "time_range": {
+        "min": "2020-07-29T12:14:44.471000+00:00",
+        "max": "2020-07-29T14:22:06.195000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 8457
+        }
+      ],
+      "total_events": 8457
+    },
+    {
+      "sourcetype": "kube:container:adminfrontend2",
+      "time_range": {
+        "min": "2020-07-29T13:41:19.884000+00:00",
+        "max": "2020-07-29T13:48:55.616000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 27
+        }
+      ],
+      "total_events": 27
+    },
+    {
+      "sourcetype": "kube:container:alb-ingress-controller",
+      "time_range": {
+        "min": "2020-07-29T12:45:07.791000+00:00",
+        "max": "2020-07-29T14:08:27.600000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 146
+        }
+      ],
+      "total_events": 146
+    },
+    {
+      "sourcetype": "kube:container:backend-tools",
+      "time_range": {
+        "min": "2020-07-29T13:54:09.313000+00:00",
+        "max": "2020-07-29T13:54:24.659000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 104
+        }
+      ],
+      "total_events": 104
+    },
+    {
+      "sourcetype": "kube:container:cartservice",
+      "time_range": {
+        "min": "2020-07-29T12:50:44.620000+00:00",
+        "max": "2020-07-29T14:11:49.937000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 267
+        }
+      ],
+      "total_events": 267
+    },
+    {
+      "sourcetype": "kube:container:coredns",
+      "time_range": {
+        "min": "2020-07-29T14:07:39.521000+00:00",
+        "max": "2020-07-29T14:07:39.521000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 4
+        }
+      ],
+      "total_events": 4
+    },
+    {
+      "sourcetype": "kube:container:dashboard-metrics-scraper",
+      "time_range": {
+        "min": "2020-07-29T12:14:38.021000+00:00",
+        "max": "2020-07-29T14:21:57.617000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 1085
+        }
+      ],
+      "total_events": 1085
+    },
+    {
+      "sourcetype": "kube:container:kube-hunter",
+      "time_range": {
+        "min": "2020-07-29T13:47:27.067000+00:00",
+        "max": "2020-07-29T13:47:32.141000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 41
+        }
+      ],
+      "total_events": 41
+    },
+    {
+      "sourcetype": "kube:container:kubernetes-dashboard",
+      "time_range": {
+        "min": "2020-07-29T12:44:05.435000+00:00",
+        "max": "2020-07-29T13:49:43.171000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 2341
+        }
+      ],
+      "total_events": 2341
+    },
+    {
+      "sourcetype": "kube:container:metrics-server",
+      "time_range": {
+        "min": "2020-07-29T12:51:38.397000+00:00",
+        "max": "2020-07-29T14:21:32.353000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 232
+        }
+      ],
+      "total_events": 232
+    },
+    {
+      "sourcetype": "kube:container:nginx",
+      "time_range": {
+        "min": "2020-07-29T13:50:15.972000+00:00",
+        "max": "2020-07-29T14:01:29.455000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 282
+        }
+      ],
+      "total_events": 282
+    },
+    {
+      "sourcetype": "kube:container:ordersservice",
+      "time_range": {
+        "min": "2020-07-29T12:25:55.209000+00:00",
+        "max": "2020-07-29T14:03:13.418000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 100
+        }
+      ],
+      "total_events": 100
+    },
+    {
+      "sourcetype": "kube:container:productservice",
+      "time_range": {
+        "min": "2020-07-29T12:23:41.668000+00:00",
+        "max": "2020-07-29T14:11:43.741000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 208
+        }
+      ],
+      "total_events": 208
+    },
+    {
+      "sourcetype": "kube:container:splunk-fluentd-k8s-logs",
+      "time_range": {
+        "min": "2020-07-29T12:14:31.579000+00:00",
+        "max": "2020-07-29T14:21:51.378000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 4273
+        }
+      ],
+      "total_events": 4273
+    },
+    {
+      "sourcetype": "kube:container:splunk-fluentd-k8s-metrics",
+      "time_range": {
+        "min": "2020-07-29T14:02:15.343000+00:00",
+        "max": "2020-07-29T14:02:37.415000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 43
+        }
+      ],
+      "total_events": 43
+    },
+    {
+      "sourcetype": "kube:container:splunk-fluentd-k8s-metrics-agg",
+      "time_range": {
+        "min": "2020-07-29T14:08:13.187000+00:00",
+        "max": "2020-07-29T14:21:33.377000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 149
+        }
+      ],
+      "total_events": 149
+    },
+    {
+      "sourcetype": "kube:container:splunk-fluentd-k8s-objects",
+      "time_range": {
+        "min": "2020-07-29T12:14:32.936000+00:00",
+        "max": "2020-07-29T14:02:35.363000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 41
+        }
+      ],
+      "total_events": 41
+    },
+    {
+      "sourcetype": "kube:container:splunk-operator",
+      "time_range": {
+        "min": "2020-07-29T14:07:49.701000+00:00",
+        "max": "2020-07-29T14:22:03.577000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 55
+        }
+      ],
+      "total_events": 55
+    },
+    {
+      "sourcetype": "kube:container:webfrontend",
+      "time_range": {
+        "min": "2020-07-29T12:14:33.556000+00:00",
+        "max": "2020-07-29T14:21:58.911000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 7873
+        }
+      ],
+      "total_events": 7873
+    },
+    {
+      "sourcetype": "kube:docker",
+      "time_range": {
+        "min": "2020-07-29T12:21:56.113000+00:00",
+        "max": "2020-07-29T14:02:01.921000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 90
+        }
+      ],
+      "total_events": 90
+    },
+    {
+      "sourcetype": "kube:kubelet",
+      "time_range": {
+        "min": "2020-07-29T12:17:51.197000+00:00",
+        "max": "2020-07-29T14:17:59.629000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:ts",
+          "count": 2,
+          "range": {
+            "min": "2020-07-29T13:48:55.851000+00:00",
+            "max": "2020-07-29T14:02:00.988000+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 141
+        }
+      ],
+      "total_events": 141
+    },
+    {
+      "sourcetype": "kube:objects:component_statuses",
+      "time_range": {
+        "min": "2020-07-29T12:15:21.590000+00:00",
+        "max": "2020-07-29T14:21:23.662000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 357
+        }
+      ],
+      "total_events": 357
+    },
+    {
+      "sourcetype": "kube:objects:config_maps",
+      "time_range": {
+        "min": "2020-07-29T12:15:30.570000+00:00",
+        "max": "2020-07-29T14:21:33.570000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:creationTimestamp",
+          "count": 1666,
+          "range": {
+            "min": "2020-05-13T12:42:43+00:00",
+            "max": "2020-07-28T15:44:36+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 1785
+        }
+      ],
+      "total_events": 1785
+    },
+    {
+      "sourcetype": "kube:objects:daemon_sets",
+      "time_range": {
+        "min": "2020-07-29T12:15:30.328000+00:00",
+        "max": "2020-07-29T14:21:33.082000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:creationTimestamp",
+          "count": 623,
+          "range": {
+            "min": "2020-05-13T12:42:45+00:00",
+            "max": "2020-07-29T13:54:08+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 623
+        }
+      ],
+      "total_events": 623
+    },
+    {
+      "sourcetype": "kube:objects:deployments",
+      "time_range": {
+        "min": "2020-07-29T12:14:41.270000+00:00",
+        "max": "2020-07-29T14:21:45.388000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:lastUpdateTime",
+          "count": 2886,
+          "range": {
+            "min": "2020-05-13T12:47:54+00:00",
+            "max": "2020-07-29T14:08:13+00:00"
+          }
+        },
+        {
+          "field": "json:lastTransitionTime",
+          "count": 2886,
+          "range": {
+            "min": "2020-05-13T12:42:51+00:00",
+            "max": "2020-07-29T14:08:13+00:00"
+          }
+        },
+        {
+          "field": "json:creationTimestamp",
+          "count": 1923,
+          "range": {
+            "min": "2020-05-13T12:42:45+00:00",
+            "max": "2020-07-29T14:01:11+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 1923
+        }
+      ],
+      "total_events": 1923
+    },
+    {
+      "sourcetype": "kube:objects:events",
+      "time_range": {
+        "min": "2020-07-29T12:21:56.757000+00:00",
+        "max": "2020-07-29T14:21:16.826000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:creationTimestamp",
+          "count": 629,
+          "range": {
+            "min": "2020-07-28T15:45:04+00:00",
+            "max": "2020-07-29T14:08:27+00:00"
+          }
+        },
+        {
+          "field": "json:firstTimestamp",
+          "count": 629,
+          "range": {
+            "min": "2020-07-28T15:34:09+00:00",
+            "max": "2020-07-29T14:08:27+00:00"
+          }
+        },
+        {
+          "field": "json:lastTimestamp",
+          "count": 629,
+          "range": {
+            "min": "2020-07-29T12:11:27+00:00",
+            "max": "2020-07-29T14:08:27+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 630
+        }
+      ],
+      "total_events": 630
+    },
+    {
+      "sourcetype": "kube:objects:namespaces",
+      "time_range": {
+        "min": "2020-07-29T12:15:21.131000+00:00",
+        "max": "2020-07-29T14:21:23.117000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:creationTimestamp",
+          "count": 833,
+          "range": {
+            "min": "2020-05-13T12:42:42+00:00",
+            "max": "2020-06-22T19:49:42+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 833
+        }
+      ],
+      "total_events": 833
+    },
+    {
+      "sourcetype": "kube:objects:nodes",
+      "time_range": {
+        "min": "2020-07-29T12:15:26.991000+00:00",
+        "max": "2020-07-29T14:21:29.455000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:lastHeartbeatTime",
+          "count": 1904,
+          "range": {
+            "min": "2020-07-29T12:14:30+00:00",
+            "max": "2020-07-29T14:21:21+00:00"
+          }
+        },
+        {
+          "field": "json:lastTransitionTime",
+          "count": 1904,
+          "range": {
+            "min": "2020-07-28T15:33:46+00:00",
+            "max": "2020-07-29T14:06:34+00:00"
+          }
+        },
+        {
+          "field": "json:creationTimestamp",
+          "count": 476,
+          "range": {
+            "min": "2020-07-28T15:33:47+00:00",
+            "max": "2020-07-28T15:51:27+00:00"
+          }
+        },
+        {
+          "field": "json:timeAdded",
+          "count": 43,
+          "range": {
+            "min": "2020-07-29T14:01:33+00:00",
+            "max": "2020-07-29T14:02:36+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 476
+        }
+      ],
+      "total_events": 476
+    },
+    {
+      "sourcetype": "kube:objects:pods",
+      "time_range": {
+        "min": "2020-07-29T12:15:31.054000+00:00",
+        "max": "2020-07-29T14:21:40.914000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:lastTransitionTime",
+          "count": 18780,
+          "range": {
+            "min": "2020-07-28T15:33:47+00:00",
+            "max": "2020-07-29T14:08:13+00:00"
+          }
+        },
+        {
+          "field": "json:startedAt",
+          "count": 5224,
+          "range": {
+            "min": "2020-07-28T15:33:57+00:00",
+            "max": "2020-07-29T14:08:12+00:00"
+          }
+        },
+        {
+          "field": "json:creationTimestamp",
+          "count": 4710,
+          "range": {
+            "min": "2020-07-28T15:33:47+00:00",
+            "max": "2020-07-29T14:07:36+00:00"
+          }
+        },
+        {
+          "field": "json:startTime",
+          "count": 4710,
+          "range": {
+            "min": "2020-07-28T15:33:47+00:00",
+            "max": "2020-07-29T14:07:36+00:00"
+          }
+        },
+        {
+          "field": "json:finishedAt",
+          "count": 582,
+          "range": {
+            "min": "2020-07-28T18:15:18+00:00",
+            "max": "2020-07-29T14:01:34+00:00"
+          }
+        },
+        {
+          "field": "json:deletionTimestamp",
+          "count": 125,
+          "range": {
+            "min": "2020-07-29T14:02:30+00:00",
+            "max": "2020-07-29T14:08:06+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 4710
+        }
+      ],
+      "total_events": 4710
+    },
+    {
+      "sourcetype": "kube:objects:replica_sets",
+      "time_range": {
+        "min": "2020-07-29T12:14:56.264000+00:00",
+        "max": "2020-07-29T14:22:01.333000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:creationTimestamp",
+          "count": 2641,
+          "range": {
+            "min": "2020-05-13T12:42:51+00:00",
+            "max": "2020-07-29T13:50:09+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 2641
+        }
+      ],
+      "total_events": 2641
+    },
+    {
+      "sourcetype": "kube:objects:service_accounts",
+      "time_range": {
+        "min": "2020-07-29T12:14:55.995000+00:00",
+        "max": "2020-07-29T14:22:00.498000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:creationTimestamp",
+          "count": 5280,
+          "range": {
+            "min": "2020-05-13T12:42:45+00:00",
+            "max": "2020-06-22T19:49:42+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 5280
+        }
+      ],
+      "total_events": 5280
+    },
+    {
+      "sourcetype": "kube:objects:services",
+      "time_range": {
+        "min": "2020-07-29T12:15:30.348000+00:00",
+        "max": "2020-07-29T14:21:33.106000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:creationTimestamp",
+          "count": 1666,
+          "range": {
+            "min": "2020-05-13T12:42:43+00:00",
+            "max": "2020-07-28T12:36:25+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 1666
+        }
+      ],
+      "total_events": 1666
+    },
+    {
+      "sourcetype": "linux_audit",
+      "time_range": {
+        "min": "2020-08-26T00:00:01.435000+00:00",
+        "max": "2020-08-28T14:53:23.869000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 50198
+        },
+        {
+          "ts": 1598486400,
+          "count": 48727
+        },
+        {
+          "ts": 1598572800,
+          "count": 31360
+        }
+      ],
+      "total_events": 130285
+    },
+    {
+      "sourcetype": "o365:management:activity",
+      "time_range": {
+        "min": "2020-08-18T18:32:02+00:00",
+        "max": "2020-08-18T21:58:53+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1597708800,
+          "count": 903
+        }
+      ],
+      "total_events": 903
+    },
+    {
+      "sourcetype": "o365:service:message",
+      "time_range": {
+        "min": "2020-08-18T19:14:32.120000+00:00",
+        "max": "2020-08-18T21:33:26.457000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:PublishedTime",
+          "count": 20,
+          "range": {
+            "min": "2020-08-11T00:37:34.143000+00:00",
+            "max": "2020-08-18T21:02:39.340000+00:00"
+          }
+        },
+        {
+          "field": "json:LastUpdatedTime",
+          "count": 3,
+          "range": {
+            "min": "2020-08-18T19:14:32.120000+00:00",
+            "max": "2020-08-18T21:33:26.457000+00:00"
+          }
+        },
+        {
+          "field": "json:StartTime",
+          "count": 3,
+          "range": {
+            "min": "2020-07-17T12:00:00+00:00",
+            "max": "2020-08-18T01:05:07+00:00"
+          }
+        },
+        {
+          "field": "json:EndTime",
+          "count": 1,
+          "range": {
+            "min": "2020-08-21T07:00:00+00:00",
+            "max": "2020-08-21T07:00:00+00:00"
+          }
+        },
+        {
+          "field": "json:MilestoneDate",
+          "count": 1,
+          "range": {
+            "min": "2020-08-18T01:05:07+00:00",
+            "max": "2020-08-18T01:05:07+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1597708800,
+          "count": 3
+        }
+      ],
+      "total_events": 3
+    },
+    {
+      "sourcetype": "o365:service:status",
+      "time_range": {
+        "min": "2020-08-18T18:34:51.866000+00:00",
+        "max": "2020-08-18T21:59:49.448000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:StatusTime",
+          "count": 880,
+          "range": {
+            "min": "2020-08-18T18:34:51.866062+00:00",
+            "max": "2020-08-18T21:59:49.448173+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1597708800,
+          "count": 880
+        }
+      ],
+      "total_events": 880
+    },
+    {
+      "sourcetype": "osquery:info",
+      "time_range": {
+        "min": "2020-08-26T00:00:00.718000+00:00",
+        "max": "2020-08-28T07:52:50.047000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 5686
+        },
+        {
+          "ts": 1598486400,
+          "count": 2749
+        },
+        {
+          "ts": 1598572800,
+          "count": 2515
+        }
+      ],
+      "total_events": 10950
+    },
+    {
+      "sourcetype": "osquery:results",
+      "time_range": {
+        "min": "2020-08-26T00:07:46+00:00",
+        "max": "2020-08-28T14:32:23+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 3641
+        },
+        {
+          "ts": 1598486400,
+          "count": 136
+        },
+        {
+          "ts": 1598572800,
+          "count": 285
+        }
+      ],
+      "total_events": 4062
+    },
+    {
+      "sourcetype": "osquery:snapshots",
+      "time_range": {
+        "min": "2020-08-26T00:36:15+00:00",
+        "max": "2020-08-28T13:55:08+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 36
+        },
+        {
+          "ts": 1598486400,
+          "count": 8
+        },
+        {
+          "ts": 1598572800,
+          "count": 18
+        }
+      ],
+      "total_events": 62
+    },
+    {
+      "sourcetype": "osquery:warning",
+      "time_range": {
+        "min": "2020-08-26T00:22:48.567000+00:00",
+        "max": "2020-08-28T07:51:51.421000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 37
+        },
+        {
+          "ts": 1598486400,
+          "count": 18
+        },
+        {
+          "ts": 1598572800,
+          "count": 17
+        }
+      ],
+      "total_events": 72
+    },
+    {
+      "sourcetype": "pod-bash-history",
+      "time_range": {
+        "min": "2020-07-29T14:04:42+00:00",
+        "max": "2020-07-29T14:04:42+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 1
+        }
+      ],
+      "total_events": 1
+    },
+    {
+      "sourcetype": "pod-file-changes",
+      "time_range": {
+        "min": "2020-07-29T13:40:36+00:00",
+        "max": "2020-07-29T14:01:01+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 6
+        }
+      ],
+      "total_events": 6
+    },
+    {
+      "sourcetype": "postfix_syslog",
+      "time_range": {
+        "min": "2020-08-26T00:35:36+00:00",
+        "max": "2020-08-28T14:51:26+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 183
+        },
+        {
+          "ts": 1598486400,
+          "count": 182
+        },
+        {
+          "ts": 1598572800,
+          "count": 115
+        }
+      ],
+      "total_events": 480
+    },
+    {
+      "sourcetype": "pulse:connectsecure",
+      "time_range": {
+        "min": "2020-08-27T11:37:41+00:00",
+        "max": "2020-08-27T11:37:57+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598486400,
+          "count": 3
+        }
+      ],
+      "total_events": 3
+    },
+    {
+      "sourcetype": "queue_log-too_small",
+      "time_range": {
+        "min": "2020-08-26T03:31:01+00:00",
+        "max": "2020-08-28T03:14:01+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 1
+        },
+        {
+          "ts": 1598486400,
+          "count": 1
+        },
+        {
+          "ts": 1598572800,
+          "count": 1
+        }
+      ],
+      "total_events": 3
+    },
+    {
+      "sourcetype": "redis",
+      "time_range": {
+        "min": "2020-08-26T00:00:18.551000+00:00",
+        "max": "2020-08-28T14:45:06.305000+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 406
+        },
+        {
+          "ts": 1598486400,
+          "count": 403
+        },
+        {
+          "ts": 1598572800,
+          "count": 323
+        }
+      ],
+      "total_events": 1132
+    },
+    {
+      "sourcetype": "stream:dhcp",
+      "time_range": {
+        "min": "2020-08-18T18:31:01.735000+00:00",
+        "max": "2020-08-18T21:59:30.140000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:endtime",
+          "count": 589,
+          "range": {
+            "min": "2020-08-18T18:31:01.735667+00:00",
+            "max": "2020-08-18T21:59:30.140208+00:00"
+          }
+        },
+        {
+          "field": "json:timestamp",
+          "count": 589,
+          "range": {
+            "min": "2020-08-18T18:31:01.735667+00:00",
+            "max": "2020-08-18T21:59:30.140208+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1597708800,
+          "count": 589
+        }
+      ],
+      "total_events": 589
+    },
+    {
+      "sourcetype": "stream:dns",
+      "time_range": {
+        "min": "2020-07-29T12:12:45.295000+00:00",
+        "max": "2020-08-28T14:53:30.235000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:endtime",
+          "count": 2641751,
+          "range": {
+            "min": "2020-07-29T12:12:45.295480+00:00",
+            "max": "2020-08-28T14:53:30.235298+00:00"
+          }
+        },
+        {
+          "field": "json:timestamp",
+          "count": 2641751,
+          "range": {
+            "min": "2020-07-29T12:12:45.295227+00:00",
+            "max": "2020-08-28T14:53:30.235041+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 273754
+        },
+        {
+          "ts": 1597708800,
+          "count": 40491
+        },
+        {
+          "ts": 1598400000,
+          "count": 635295
+        },
+        {
+          "ts": 1598486400,
+          "count": 1215208
+        },
+        {
+          "ts": 1598572800,
+          "count": 477003
+        }
+      ],
+      "total_events": 2641751
+    },
+    {
+      "sourcetype": "stream:ftp",
+      "time_range": {
+        "min": "2020-08-26T17:47:51.302000+00:00",
+        "max": "2020-08-27T21:19:17.691000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:endtime",
+          "count": 147,
+          "range": {
+            "min": "2020-08-26T17:47:51.302234+00:00",
+            "max": "2020-08-27T21:19:17.691744+00:00"
+          }
+        },
+        {
+          "field": "json:timestamp",
+          "count": 147,
+          "range": {
+            "min": "2020-08-26T17:47:51.300896+00:00",
+            "max": "2020-08-27T21:19:17.689423+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 30
+        },
+        {
+          "ts": 1598486400,
+          "count": 117
+        }
+      ],
+      "total_events": 147
+    },
+    {
+      "sourcetype": "stream:http",
+      "time_range": {
+        "min": "2020-07-29T12:12:44.356000+00:00",
+        "max": "2020-08-28T14:50:01.217000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:endtime",
+          "count": 447742,
+          "range": {
+            "min": "2020-07-29T12:12:44.356781+00:00",
+            "max": "2020-08-28T14:50:01.217216+00:00"
+          }
+        },
+        {
+          "field": "json:timestamp",
+          "count": 447742,
+          "range": {
+            "min": "2020-07-29T12:12:44.356501+00:00",
+            "max": "2020-08-28T14:50:01.217216+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 111320
+        },
+        {
+          "ts": 1597708800,
+          "count": 10095
+        },
+        {
+          "ts": 1598400000,
+          "count": 50428
+        },
+        {
+          "ts": 1598486400,
+          "count": 270198
+        },
+        {
+          "ts": 1598572800,
+          "count": 5776
+        }
+      ],
+      "total_events": 447817
+    },
+    {
+      "sourcetype": "stream:icmp",
+      "time_range": {
+        "min": "2020-08-26T00:00:53.734000+00:00",
+        "max": "2020-08-28T14:50:42.275000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:endtime",
+          "count": 15775,
+          "range": {
+            "min": "2020-08-26T00:00:53.734083+00:00",
+            "max": "2020-08-28T14:50:42.275955+00:00"
+          }
+        },
+        {
+          "field": "json:timestamp",
+          "count": 15775,
+          "range": {
+            "min": "2020-08-26T00:00:53.734083+00:00",
+            "max": "2020-08-28T14:50:42.275955+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 4223
+        },
+        {
+          "ts": 1598486400,
+          "count": 9940
+        },
+        {
+          "ts": 1598572800,
+          "count": 1612
+        }
+      ],
+      "total_events": 15775
+    },
+    {
+      "sourcetype": "stream:ip",
+      "time_range": {
+        "min": "2020-07-29T00:35:04.391000+00:00",
+        "max": "2020-08-28T14:54:35+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:endtime",
+          "count": 3421052,
+          "range": {
+            "min": "2020-07-29T00:35:04.391379+00:00",
+            "max": "2020-08-28T14:54:35.248869+00:00"
+          }
+        },
+        {
+          "field": "json:timestamp",
+          "count": 3421052,
+          "range": {
+            "min": "2020-07-28T16:47:38.468294+00:00",
+            "max": "2020-08-28T14:54:35.248869+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 211014
+        },
+        {
+          "ts": 1597708800,
+          "count": 61964
+        },
+        {
+          "ts": 1598400000,
+          "count": 803413
+        },
+        {
+          "ts": 1598486400,
+          "count": 1768952
+        },
+        {
+          "ts": 1598572800,
+          "count": 575709
+        }
+      ],
+      "total_events": 3421052
+    },
+    {
+      "sourcetype": "stream:ldap",
+      "time_range": {
+        "min": "2020-08-18T18:35:11.544000+00:00",
+        "max": "2020-08-28T14:45:49.864000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:endtime",
+          "count": 47279,
+          "range": {
+            "min": "2020-08-18T18:35:11.544209+00:00",
+            "max": "2020-08-28T14:45:49.864566+00:00"
+          }
+        },
+        {
+          "field": "json:timestamp",
+          "count": 47279,
+          "range": {
+            "min": "2020-08-18T18:35:11.544209+00:00",
+            "max": "2020-08-28T14:45:49.864566+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1597708800,
+          "count": 1308
+        },
+        {
+          "ts": 1598400000,
+          "count": 14096
+        },
+        {
+          "ts": 1598486400,
+          "count": 21337
+        },
+        {
+          "ts": 1598572800,
+          "count": 10538
+        }
+      ],
+      "total_events": 47279
+    },
+    {
+      "sourcetype": "stream:mysql",
+      "time_range": {
+        "min": "2020-07-29T12:23:41.672000+00:00",
+        "max": "2020-07-29T14:12:45.179000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:endtime",
+          "count": 1994,
+          "range": {
+            "min": "2020-07-29T12:23:41.672120+00:00",
+            "max": "2020-07-29T14:12:45.179441+00:00"
+          }
+        },
+        {
+          "field": "json:timestamp",
+          "count": 1994,
+          "range": {
+            "min": "2020-07-29T12:23:41.671518+00:00",
+            "max": "2020-07-29T14:12:45.179441+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 1994
+        }
+      ],
+      "total_events": 1994
+    },
+    {
+      "sourcetype": "stream:sip",
+      "time_range": {
+        "min": "2020-08-26T00:00:35.545000+00:00",
+        "max": "2020-08-28T14:53:19.589000+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:endtime",
+          "count": 163710,
+          "range": {
+            "min": "2020-08-26T00:00:35.545380+00:00",
+            "max": "2020-08-28T14:53:19.589759+00:00"
+          }
+        },
+        {
+          "field": "json:timestamp",
+          "count": 163710,
+          "range": {
+            "min": "2020-08-26T00:00:35.545380+00:00",
+            "max": "2020-08-28T14:53:19.589759+00:00"
+          }
+        },
+        {
+          "field": "json:start_time",
+          "count": 67,
+          "range": {
+            "min": "2020-08-27T21:59:13.360881+00:00",
+            "max": "2020-08-27T22:05:04.362818+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 42280
+        },
+        {
+          "ts": 1598486400,
+          "count": 58596
+        },
+        {
+          "ts": 1598572800,
+          "count": 62834
+        }
+      ],
+      "total_events": 163710
+    },
+    {
+      "sourcetype": "stream:smb",
+      "time_range": {
+        "min": "2020-08-18T18:31:54.011000+00:00",
+        "max": "2020-08-28T14:53:44+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:endtime",
+          "count": 426959,
+          "range": {
+            "min": "2020-08-18T18:31:54.011407+00:00",
+            "max": "2020-08-28T14:53:43.276774+00:00"
+          }
+        },
+        {
+          "field": "json:timestamp",
+          "count": 426959,
+          "range": {
+            "min": "2020-08-18T18:31:54.011407+00:00",
+            "max": "2020-08-28T14:53:43.276774+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1597708800,
+          "count": 347041
+        },
+        {
+          "ts": 1598400000,
+          "count": 23801
+        },
+        {
+          "ts": 1598486400,
+          "count": 43605
+        },
+        {
+          "ts": 1598572800,
+          "count": 12512
+        }
+      ],
+      "total_events": 426959
+    },
+    {
+      "sourcetype": "stream:tcp",
+      "time_range": {
+        "min": "2020-07-29T00:35:04.392000+00:00",
+        "max": "2020-08-28T14:53:37+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:endtime",
+          "count": 2001981,
+          "range": {
+            "min": "2020-07-29T00:35:04.392134+00:00",
+            "max": "2020-08-28T14:53:37.217998+00:00"
+          }
+        },
+        {
+          "field": "json:timestamp",
+          "count": 2001981,
+          "range": {
+            "min": "2020-07-28T16:47:38.468294+00:00",
+            "max": "2020-08-28T14:53:37.217998+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 179045
+        },
+        {
+          "ts": 1597708800,
+          "count": 22475
+        },
+        {
+          "ts": 1598400000,
+          "count": 437572
+        },
+        {
+          "ts": 1598486400,
+          "count": 1112751
+        },
+        {
+          "ts": 1598572800,
+          "count": 250138
+        }
+      ],
+      "total_events": 2001981
+    },
+    {
+      "sourcetype": "stream:udp",
+      "time_range": {
+        "min": "2020-07-29T12:12:30+00:00",
+        "max": "2020-08-28T14:54:44+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:endtime",
+          "count": 257706,
+          "range": {
+            "min": "2020-07-29T12:12:30.000546+00:00",
+            "max": "2020-08-28T14:54:44.001913+00:00"
+          }
+        },
+        {
+          "field": "json:timestamp",
+          "count": 257706,
+          "range": {
+            "min": "2020-07-29T12:08:43.995986+00:00",
+            "max": "2020-08-28T14:54:44.001913+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1595980800,
+          "count": 102643
+        },
+        {
+          "ts": 1597708800,
+          "count": 39470
+        },
+        {
+          "ts": 1598400000,
+          "count": 36179
+        },
+        {
+          "ts": 1598486400,
+          "count": 54015
+        },
+        {
+          "ts": 1598572800,
+          "count": 25399
+        }
+      ],
+      "total_events": 257706
+    },
+    {
+      "sourcetype": "syslog",
+      "time_range": {
+        "min": "2020-08-26T00:00:01+00:00",
+        "max": "2020-08-28T14:53:07+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 17822
+        },
+        {
+          "ts": 1598486400,
+          "count": 17589
+        },
+        {
+          "ts": 1598572800,
+          "count": 11122
+        }
+      ],
+      "total_events": 46533
+    },
+    {
+      "sourcetype": "term-too_small",
+      "time_range": {
+        "min": "2020-08-27T12:58:06+00:00",
+        "max": "2020-08-27T13:15:09+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598486400,
+          "count": 11
+        }
+      ],
+      "total_events": 11
+    },
+    {
+      "sourcetype": "ucp_err",
+      "time_range": {
+        "min": "2020-08-26T01:17:00+00:00",
+        "max": "2020-08-28T09:17:00+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 6
+        },
+        {
+          "ts": 1598486400,
+          "count": 6
+        },
+        {
+          "ts": 1598572800,
+          "count": 3
+        }
+      ],
+      "total_events": 15
+    },
+    {
+      "sourcetype": "ucp_out",
+      "time_range": {
+        "min": "2020-08-26T01:17:00+00:00",
+        "max": "2020-08-28T09:17:00+00:00"
+      },
+      "raw_fields": [],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 29
+        },
+        {
+          "ts": 1598486400,
+          "count": 29
+        },
+        {
+          "ts": 1598572800,
+          "count": 19
+        }
+      ],
+      "total_events": 77
+    },
+    {
+      "sourcetype": "xmlwineventlog",
+      "time_range": {
+        "min": "2020-08-18T18:31:04+00:00",
+        "max": "2020-08-28T14:52:01+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "xml:TimeCreated.SystemTime",
+          "count": 46372,
+          "range": {
+            "min": "2020-08-18T18:31:04.485305+00:00",
+            "max": "2020-08-28T14:52:01.443288+00:00"
+          }
+        },
+        {
+          "field": "xml:Data.TargetObject",
+          "count": 2803,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.TargetFilename",
+          "count": 2249,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.CommandLine",
+          "count": 1226,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.ParentCommandLine",
+          "count": 1120,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.Image",
+          "count": 909,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.RuleName",
+          "count": 648,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.User",
+          "count": 321,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.ParentImage",
+          "count": 32,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.CurrentDirectory",
+          "count": 23,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.Details",
+          "count": 19,
+          "range": {
+            "min": "2020-08-18T18:36:17+00:00",
+            "max": "2020-08-18T20:54:56+00:00"
+          }
+        },
+        {
+          "field": "xml:Data.Contents",
+          "count": 10,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.Description",
+          "count": 7,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.QueryResults",
+          "count": 6,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        },
+        {
+          "field": "xml:Data.QueryName",
+          "count": 4,
+          "range": {
+            "min": null,
+            "max": null
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1597708800,
+          "count": 24889
+        },
+        {
+          "ts": 1598400000,
+          "count": 14413
+        },
+        {
+          "ts": 1598486400,
+          "count": 5105
+        },
+        {
+          "ts": 1598572800,
+          "count": 1965
+        }
+      ],
+      "total_events": 46372
+    },
+    {
+      "sourcetype": "zoom:webhook",
+      "time_range": {
+        "min": "2020-08-26T04:09:00+00:00",
+        "max": "2020-08-28T00:21:12+00:00"
+      },
+      "raw_fields": [
+        {
+          "field": "json:start_time",
+          "count": 108,
+          "range": {
+            "min": "2020-08-26T04:09:09+00:00",
+            "max": "2020-09-02T21:30:00+00:00"
+          }
+        },
+        {
+          "field": "json:date_time",
+          "count": 59,
+          "range": {
+            "min": "2020-08-26T04:09:52+00:00",
+            "max": "2020-08-28T00:18:56+00:00"
+          }
+        },
+        {
+          "field": "json:leave_time",
+          "count": 19,
+          "range": {
+            "min": "2020-08-26T04:14:14+00:00",
+            "max": "2020-08-27T23:08:34+00:00"
+          }
+        },
+        {
+          "field": "json:join_time",
+          "count": 19,
+          "range": {
+            "min": "2020-08-26T04:09:09+00:00",
+            "max": "2020-08-27T22:44:50+00:00"
+          }
+        },
+        {
+          "field": "json:recording_start",
+          "count": 10,
+          "range": {
+            "min": "2020-08-27T23:03:45+00:00",
+            "max": "2020-08-27T23:04:39+00:00"
+          }
+        },
+        {
+          "field": "json:recording_end",
+          "count": 8,
+          "range": {
+            "min": "2020-08-27T23:04:01+00:00",
+            "max": "2020-08-27T23:07:35+00:00"
+          }
+        },
+        {
+          "field": "json:end_time",
+          "count": 7,
+          "range": {
+            "min": "2020-08-26T04:14:14+00:00",
+            "max": "2020-08-27T23:08:34+00:00"
+          }
+        }
+      ],
+      "histogram": [
+        {
+          "ts": 1598400000,
+          "count": 21
+        },
+        {
+          "ts": 1598486400,
+          "count": 124
+        },
+        {
+          "ts": 1598572800,
+          "count": 2
+        }
+      ],
+      "total_events": 147
+    }
+  ]
+}
