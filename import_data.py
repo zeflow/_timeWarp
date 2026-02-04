@@ -40,7 +40,7 @@ STEP_HOURS = float(os.getenv("SPLUNK_STEP_HOURS", "1"))
 if STEP_HOURS <= 0:
     raise RuntimeError("SPLUNK_STEP_HOURS must be a positive number of hours")
 STEP = timedelta(hours=STEP_HOURS)
-MAX_RESULTS_PER_PAGE = 50000  # Splunk REST API caps a single page at 50k rows
+MAX_RESULTS_PER_PAGE = 50000  # unused in export mode, kept for backward compatibility
 
 requests.packages.urllib3.disable_warnings()  # disable TLS warnings for self-signed Splunk certs
 
@@ -130,114 +130,39 @@ def run_window(start: datetime, end: datetime, idx: int, total: int) -> int:
 
     EXPORTDIR.mkdir(exist_ok=True)
 
-    print(f"[{idx}/{total}] Creating search job for {start} -> {end}")
-    job_creation_url = f"{BASE}/services/search/jobs"
-    print(f"POST {job_creation_url}")
-    r = requests.post(
-        job_creation_url,
-        auth=AUTH,
-        data={"search": search, "exec_mode": "normal"},
-        verify=False,
-    )
-    r.raise_for_status()
-    sid = r.text.split("<sid>")[1].split("</sid>")[0]
-    print(f"[{idx}/{total}] Job SID: {sid}")
-
-    # wait
-    print(f"[{idx}/{total}] Polling job status...")
-    while True:
-        status_url = f"{BASE}/services/search/jobs/{sid}"
-        print(f"GET {status_url}")
-        s = requests.get(
-            status_url,
-            auth=AUTH,
-            verify=False,
-        ).text
-        info = parse_keys(s)
-        progress = format_percent(info.get("doneProgress"))
-        state = info.get("dispatchState", "unknown")
-        run_duration = info.get("runDuration", "?")
-        print(f"[{idx}/{total}] State={state}, progress={progress}, runtime={run_duration}s")
-
-        if info.get("isDone") == "1":
-            break
-
-        sleep(2)
-
-    if info.get("isFailed") == "1" or state.upper() == "FAILED":
-        print(f"[{idx}/{total}] Job failed.")
-        log_url = f"{BASE}/services/search/jobs/{sid}/search.log"
-        print(f"GET {log_url}")
-        log_resp = requests.get(
-            log_url,
-            auth=AUTH,
-            verify=False,
-        )
-        if log_resp.ok:
-            print("Tail of search.log:")
-            for line in log_resp.text.strip().splitlines()[-20:]:
-                print(line)
-        else:
-            print(f"Could not fetch search.log (HTTP {log_resp.status_code})")
-        return
-
     out_path = filename_for_window(start, end)
     meta_path = out_path.with_suffix(".meta.json")
-    print(f"[{idx}/{total}] Job finished, downloading results to {out_path} (JSONL)...")
-    results_url = f"{BASE}/services/search/jobs/{sid}/results"
-    print(f"GET {results_url} (paged to avoid 50k row limit)")
-
-    offset = 0
+    print(f"[{idx}/{total}] Streaming results to {out_path} via /search/jobs/export ...")
+    export_url = f"{BASE}/services/search/jobs/export"
     total_rows = 0
-    messages: list[dict] = []
-    metadata: dict = {}
-
-    f = None
-    try:
-        while True:
-            params = {
-                "output_mode": "json",
-                "count": MAX_RESULTS_PER_PAGE,
-                "offset": offset,
-            }
-            r = requests.get(
-                results_url,
-                auth=AUTH,
-                params=params,
-                verify=False,
-            )
-            if not r.ok:
-                print(f"[{idx}/{total}] Failed at offset {offset}: HTTP {r.status_code}")
-                print(r.text)
-                break
-
-            payload = r.json()
-            if not metadata:
-                metadata = {k: v for k, v in payload.items() if k not in {"results", "messages"}}
-
-            messages.extend(payload.get("messages") or [])
-
-            batch = payload.get("results") or []
-            if not batch:
-                break
-
-            if f is None:
-                f = open(out_path, "w", encoding="utf-8")
-
-            for row in batch:
-                json.dump(row, f)
-                f.write("\n")
-
-            batch_size = len(batch)
-            total_rows += batch_size
-            offset += batch_size
-            print(f"[{idx}/{total}] Downloaded {total_rows} rows so far...")
-
-            if batch_size < MAX_RESULTS_PER_PAGE:
-                break  # last page
-    finally:
-        if f:
-            f.close()
+    messages: list[str] = []
+    metadata: dict = {"mode": "export"}
+    with requests.post(
+        export_url,
+        auth=AUTH,
+        data={
+            "search": search,
+            "output_mode": "json",
+        },
+        stream=True,
+        verify=False,
+    ) as resp:
+        resp.raise_for_status()
+        with open(out_path, "w", encoding="utf-8") as f:
+            for line in resp.iter_lines(decode_unicode=True):
+                if not line:
+                    continue
+                try:
+                    payload = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                # HEC-style export returns {"preview":false,"result":{...}} lines
+                if "result" in payload:
+                    json.dump(payload["result"], f)
+                    f.write("\n")
+                    total_rows += 1
+                elif "messages" in payload:
+                    messages.extend(payload.get("messages") or [])
 
     if total_rows == 0:
         print(f"[{idx}/{total}] No events for window; skipping file write.")
@@ -251,6 +176,7 @@ def run_window(start: datetime, end: datetime, idx: int, total: int) -> int:
                 "metadata": metadata,
                 "messages": messages,
                 "total_rows": total_rows,
+                "search": search,
             },
             mf,
         )
